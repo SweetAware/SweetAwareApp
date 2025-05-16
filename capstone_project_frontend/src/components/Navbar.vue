@@ -10,6 +10,7 @@
         <button class="text-white hover:text-purple-200 transition">Home</button>
         <button class="text-white hover:text-purple-200 transition">About</button>
         <button class="text-white hover:text-purple-200 transition">Contact</button>
+        <button class="text-white hover:text-purple-200 transition">Account</button>
       </div>
     </div>
   </nav>
