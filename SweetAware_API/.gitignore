@@ -75,5 +75,38 @@ Thumbs.db
 # Debug log from npm
 npm-debug.log
 
+# SSL/TLS Certificates
+*.pem
+*.key
+*.crt
+*.cer
+*.der
+*.priv
+
+# Config files with sensitive data
+config.json
+credentials.json
+*.config.js
+!default.config.js
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Cache directories
+.cache/
+.npm/
+
+# Local database files
+*.sqlite
+*.sqlite3
+*.db
+
+# Testing
+/coverage
+.nyc_output
+.jest
+
 # Local development
 docker-compose.override.yml

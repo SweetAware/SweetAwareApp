@@ -269,8 +269,72 @@ const getPredictionById = async (request, h) => {
   }
 };
 
+// Delete a prediction by ID
+const deletePrediction = async (request, h) => {
+  try {
+    const predictionId = request.params.id;
+    const userId = request.auth.credentials.id;
+
+    // Check if database is connected
+    if (mongoose.connection.readyState !== 1) {
+      // Mock response for development without database
+      console.log("Using mock data - database not connected");
+
+      if (
+        !predictionId.startsWith("mock-") &&
+        predictionId !== "60d21b4667d0d8992e610c85"
+      ) {
+        return h
+          .response({
+            status: "error",
+            message: "Prediction not found",
+          })
+          .code(404);
+      }
+
+      return h
+        .response({
+          status: "success",
+          message: "Prediction deleted successfully (MOCK - No DB)",
+        })
+        .code(200);
+    }
+
+    // Find and delete the prediction
+    const prediction = await Prediction.findOneAndDelete({
+      _id: predictionId,
+      user: userId,
+    });
+
+    if (!prediction) {
+      return h
+        .response({
+          status: "error",
+          message:
+            "Prediction not found or you don't have permission to delete it",
+        })
+        .code(404);
+    }
+
+    return h
+      .response({
+        status: "success",
+        message: "Prediction deleted successfully",
+      })
+      .code(200);
+  } catch (error) {
+    return h
+      .response({
+        status: "error",
+        message: error.message,
+      })
+      .code(500);
+  }
+};
+
 module.exports = {
   createPrediction,
   getPredictionHistory,
   getPredictionById,
+  deletePrediction,
 };
