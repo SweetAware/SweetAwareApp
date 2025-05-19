@@ -33,7 +33,7 @@ The API follows a structured architecture:
         └── auth.js      # Authentication utilities
 ```
 
-## API Endpoints
+## API Documentation
 
 https://sweetaware-api.netlify.app
 
