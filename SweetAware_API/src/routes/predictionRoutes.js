@@ -34,6 +34,16 @@ const predictionRoutes = {
           tags: ["api", "predictions"],
         },
       },
+      {
+        method: "DELETE",
+        path: "/api/predictions/{id}",
+        handler: predictionController.deletePrediction,
+        options: {
+          auth: "jwt",
+          description: "Delete a specific prediction",
+          tags: ["api", "predictions"],
+        },
+      },
     ]);
   },
 };
