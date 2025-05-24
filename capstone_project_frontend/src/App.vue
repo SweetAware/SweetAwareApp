@@ -1,12 +1,12 @@
 <script setup>
-import Navbar from './components/Navbar.vue'
+import Navbar from './components/layout/Navbar.vue'
 import Home from './pages/Home.vue'
 </script>
 
 <template>
   <div class="min-h-screen bg-gray-50">
     <Navbar />
-    <Home />
+    <router-view />
   </div>
 </template>
 
