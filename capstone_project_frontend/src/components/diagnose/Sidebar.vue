@@ -5,8 +5,13 @@
       <div class="w-24 h-24 rounded-full overflow-hidden mx-auto mb-4">
         <img :src="profileImage" alt="User Profile" class="w-full h-full object-cover" />
       </div>
-      <h3 class="text-lg font-semibold">{{ userName }}</h3>
-      <button class="mt-2 px-4 py-1 bg-black rounded-full text-sm">Log out</button>
+      <h3 class="text-lg font-semibold">{{ displayName }}</h3>
+      <button
+        @click="handleLogout"
+        class="mt-2 px-4 py-1 bg-black rounded-full text-sm hover:bg-gray-800"
+      >
+        Log out
+      </button>
     </div>
 
     <!-- Navigation Menu -->
@@ -73,12 +78,28 @@
 
 <script setup>
 import { computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import { useAuth } from '@/stores/auth'
 
-// You can replace this with actual user data from your authentication system
-const userName = 'Aprizal Wijamiko'
+const router = useRouter()
+const route = useRoute()
+const { user, logout } = useAuth()
+
+// Default profile image if user doesn't have one
 const profileImage = '/src/assets/images/profil.jpg'
 
-const route = useRoute()
+// Computed property for display name
+const displayName = computed(() => {
+  if (user.value && user.value.username) {
+    return user.value.username
+  }
+  return 'Guest'
+})
+
 const isActive = (routeName) => route.name === routeName
+
+const handleLogout = () => {
+  logout()
+  router.push('/')
+}
 </script>
