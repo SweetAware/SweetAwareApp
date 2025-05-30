@@ -1,5 +1,5 @@
 <template>
-  <section class="relative">
+  <section class="relative z-0">
     <div
       class="relative rounded-[32px] mx-4 my-6 overflow-hidden min-h-[500px] bg-cover bg-center"
       :style="{ backgroundImage: `url(${heroImage})` }"
