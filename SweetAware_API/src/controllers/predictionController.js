@@ -1,6 +1,7 @@
 const Joi = require("@hapi/joi");
 const mongoose = require("mongoose");
 const Prediction = require("../models/Prediction");
+const DiabetesPredictionService = require("../utils/predictionService");
 
 // Validation schemas
 const predictionValidation = Joi.object({
@@ -28,28 +29,51 @@ const createPrediction = async (request, h) => {
     }
 
     // Get input data
-    const inputData = request.payload;
+    const inputData = request.payload; // Use the DiabetesPredictionService for prediction
+    let predictionResult;
+    let recommendations;
 
-    // In a real-world scenario, you would call a machine learning model here
-    // For now, we'll mock a prediction result
-    const mockPrediction = {
-      prediction: Math.random() > 0.5 ? "High Risk" : "Low Risk",
-      probability: Math.random(),
-      details: {
-        factors: {
-          bloodGlucoseLevel:
-            inputData.bloodGlucoseLevel > 140 ? "High" : "Normal",
-          hbA1cLevel: inputData.hbA1cLevel > 6.5 ? "Elevated" : "Normal",
-          bmi: inputData.bmi > 25 ? "Overweight" : "Normal",
-          hypertension: inputData.hypertension ? "Present" : "Absent",
-          heartDisease: inputData.heartDisease ? "Present" : "Absent",
+    try {
+      // Make prediction using our ML model
+      predictionResult = await DiabetesPredictionService.makePrediction(
+        inputData
+      );
+
+      // Get personalized recommendations based on prediction results
+      recommendations =
+        DiabetesPredictionService.getRecommendations(predictionResult);
+
+      // Add recommendations to the prediction result
+      predictionResult.recommendations = recommendations;
+    } catch (modelError) {
+      console.error("Error using ML model for prediction:", modelError);
+
+      // Fallback to mock prediction if model fails
+      predictionResult = {
+        prediction: Math.random() > 0.5 ? "High Risk" : "Low Risk",
+        probability: Math.random(),
+        details: {
+          factors: {
+            bloodGlucoseLevel:
+              inputData.bloodGlucoseLevel > 140 ? "High" : "Normal",
+            hbA1cLevel: inputData.hbA1cLevel > 6.5 ? "Elevated" : "Normal",
+            bmi: inputData.bmi > 25 ? "Overweight" : "Normal",
+            hypertension: inputData.hypertension ? "Present" : "Absent",
+            heartDisease: inputData.heartDisease ? "Present" : "Absent",
+          },
         },
-      },
-    };
-
-    // Check if database is connected
+        recommendations: {
+          lifestyle: [
+            "Maintain a balanced diet rich in vegetables and fruits",
+            "Regular physical activity (at least 150 minutes per week)",
+          ],
+          monitoring: ["Regular blood glucose monitoring"],
+          consultation: ["Follow up with your primary care physician"],
+        },
+      };
+    } // Check if database is connected
     if (mongoose.connection.readyState !== 1) {
-      // Mock response for development without database
+      // Mock response for development without `database
       console.log("Using mock data - database not connected");
       return h
         .response({
@@ -58,7 +82,7 @@ const createPrediction = async (request, h) => {
           data: {
             id: `mock-${Date.now()}`,
             inputData: inputData,
-            result: mockPrediction,
+            result: predictionResult,
             createdAt: new Date(),
           },
         })
@@ -69,7 +93,7 @@ const createPrediction = async (request, h) => {
     const prediction = new Prediction({
       user: request.auth.credentials.id,
       inputData: inputData,
-      result: mockPrediction,
+      result: predictionResult,
     });
 
     await prediction.save();
