@@ -304,6 +304,43 @@ https://sweetaware-api.netlify.app
      ]
      ```
 
+## Healthy Food Recommendations
+
+The API includes personalized healthy food recommendations based on the diabetes risk assessment. These recommendations are included in the prediction response and are categorized based on:
+
+1. **Risk Level** - Different food recommendations for High, Moderate, and Low risk levels
+2. **Health Factors** - Additional recommendations for specific health factors (high BMI, elevated blood glucose, high HbA1c)
+
+The recommendations follow this structure:
+
+```json
+"recommendations": {
+  "lifestyle": ["Maintain a balanced diet...", "Regular physical activity..."],
+  "monitoring": ["Regular blood glucose monitoring...", "Check blood glucose levels..."],
+  "consultation": ["Schedule an appointment with...", "Follow up with..."],
+  "healthyFoods": [
+    {
+      "category": "Protein Tanpa Lemak",
+      "options": ["Ikan salmon", "Tempe", "Tahu", "Dada ayam tanpa kulit"]
+    },
+    {
+      "category": "Karbohidrat Kompleks",
+      "options": ["Beras merah", "Quinoa", "Oatmeal", "Roti gandum utuh"]
+    }
+  ]
+}
+```
+
+The system provides various food categories including:
+
+- Proteins (lean proteins)
+- Complex carbohydrates (low glycemic index)
+- Non-starchy vegetables
+- Healthy fats
+- Low-glycemic fruits
+- Spices and herbs beneficial for blood glucose control
+- Healthy food pairings for stable blood glucose
+
 ## Future Enhancements
 
 1. Add real machine learning model integration for predictions
@@ -311,6 +348,7 @@ https://sweetaware-api.netlify.app
 3. Add monitoring and logging
 4. Add unit and integration tests
 5. Implement API documentation using Swagger/OpenAPI
+6. Add multilingual support for food recommendations
 
 ## Troubleshooting
 

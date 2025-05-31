@@ -48,6 +48,7 @@ const predictionSchema = new mongoose.Schema({
     prediction: { type: String, required: true },
     riskScore: { type: Number },
     details: { type: mongoose.Schema.Types.Mixed },
+    recommendations: { type: mongoose.Schema.Types.Mixed },
   },
   createdAt: {
     type: Date,
