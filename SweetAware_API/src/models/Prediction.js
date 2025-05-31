@@ -19,7 +19,8 @@ const predictionSchema = new mongoose.Schema({
     },
     hypertension: {
       type: Boolean,
-      required: true,
+      required: false,
+      default: false,
     },
     heartDisease: {
       type: Boolean,
@@ -36,16 +37,16 @@ const predictionSchema = new mongoose.Schema({
     },
     hbA1cLevel: {
       type: Number,
-      required: true,
+      required: false,
     },
     bloodGlucoseLevel: {
       type: Number,
-      required: true,
+      required: false,
     },
   },
   result: {
     prediction: { type: String, required: true },
-    probability: { type: Number },
+    riskScore: { type: Number },
     details: { type: mongoose.Schema.Types.Mixed },
   },
   createdAt: {

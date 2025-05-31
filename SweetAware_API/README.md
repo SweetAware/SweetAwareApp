@@ -147,7 +147,7 @@ https://sweetaware-api.netlify.app
          },
          "result": {
            "prediction": "Low Risk",
-           "probability": 0.32,
+           "riskScore": 0.32,
            "details": {
              "factors": {
                "glucose": "Normal",
@@ -186,7 +186,7 @@ https://sweetaware-api.netlify.app
              },
              "result": {
                "prediction": "Low Risk",
-               "probability": 0.32,
+               "riskScore": 0.32,
                "details": {
                  "factors": {
                    "glucose": "Normal",
@@ -233,7 +233,7 @@ https://sweetaware-api.netlify.app
            },
            "result": {
              "prediction": "Low Risk",
-             "probability": 0.32,
+             "riskScore": 0.32,
              "details": {
                "factors": {
                  "glucose": "Normal",

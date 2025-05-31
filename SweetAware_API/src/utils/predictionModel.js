@@ -1,6 +1,7 @@
 const tf = require("@tensorflow/tfjs");
 const path = require("path");
 const fs = require("fs");
+const { estimateMissingValues } = require("./dataEstimator");
 
 let model = null;
 
@@ -140,7 +141,7 @@ function preprocessInput(inputData) {
 /**
  * Make a diabetes prediction using the loaded model
  * @param {Object} inputData - Raw input data from user
- * @returns {Object} - Prediction result with probability and risk assessment
+ * @returns {Object} - Prediction result with riskScore and risk assessment
  */
 async function predict(inputData) {
   // Make sure model is loaded
@@ -151,30 +152,35 @@ async function predict(inputData) {
     }
   }
   try {
-    console.log("Input data for prediction:", JSON.stringify(inputData));
+    console.log(
+      "Original input data for prediction:",
+      JSON.stringify(inputData)
+    );
+
+    // Fill in any missing values with estimates
+    const completeData = estimateMissingValues(inputData);
+    console.log("Completed data with estimates:", JSON.stringify(completeData));
 
     // Preprocess the input data
-    const inputTensor = preprocessInput(inputData);
+    const inputTensor = preprocessInput(completeData);
     console.log(
       "Preprocessed features:",
       Array.from(inputTensor.dataSync())
         .map((v) => v.toFixed(2))
         .join(", ")
-    );
-
-    // Get prediction (model outputs probability between 0 and 1)
+    ); // Get prediction (model outputs risk score between 0 and 1)
     let probabilityValue;
     try {
       const predictionTensor = model.predict(inputTensor);
       probabilityValue = predictionTensor.dataSync()[0];
 
-      console.log(`Raw model prediction: ${probabilityValue.toFixed(4)}`);
+      console.log(`Raw model risk score: ${probabilityValue.toFixed(4)}`);
 
       // Clean up tensors to prevent memory leaks
       tf.dispose([inputTensor, predictionTensor]);
     } catch (predictionError) {
       console.error("Model prediction error:", predictionError);
-      // Fallback to rule-based probability estimation
+      // Fallback to rule-based risk score estimation
       console.log("Using rule-based risk assessment");
 
       // Gunakan faktor risiko utama untuk estimasi probabilitas
@@ -191,22 +197,19 @@ async function predict(inputData) {
       if (isOverweight) riskFactors += 0.15;
       if (isElderly) riskFactors += 0.15;
       if (hasComorbidity) riskFactors += 0.1;
-
-      probabilityValue = 1 - Math.min(riskFactors, 0.95);
-      console.log(`Rule-based probability: ${probabilityValue.toFixed(4)}`);
+      probabilityValue = Math.min(riskFactors, 0.95);
+      console.log(`Rule-based risk score: ${probabilityValue.toFixed(4)}`);
 
       tf.dispose([inputTensor]); // Clean up the input tensor
-    } // Classify risk level based on probability
-    // Perhatikan: Untuk model diabetes, TINGGI probabilitas = TINGGI risiko
-    // Kita perlu membalik interpretasi hasil karena model faktanya merespon
-    // sebaliknya dari yang diharapkan
+    } // Classify risk level based on risk score
+    // Perhatikan: Untuk model diabetes, TINGGI probabilitas = TINGGI risiko    // Untuk diabetes model, nilai probabilitas tinggi = risiko tinggi
     let riskLevel = "";
     if (probabilityValue > 0.7) {
-      riskLevel = "Low Risk";
+      riskLevel = "High Risk";
     } else if (probabilityValue > 0.3) {
       riskLevel = "Moderate Risk";
     } else {
-      riskLevel = "High Risk";
+      riskLevel = "Low Risk";
     }
 
     // Hitung skor risiko berdasarkan parameter kunci untuk validasi
@@ -239,43 +242,56 @@ async function predict(inputData) {
     console.log(
       `Risk score: ${normalizedRiskScore.toFixed(
         2
-      )}, Model probability: ${probabilityValue.toFixed(2)}`
-    );
-
-    // Jika ada perbedaan signifikan antara skor risiko dan output model
-    if (Math.abs(normalizedRiskScore - (1 - probabilityValue)) > 0.4) {
+      )}, Model risk score: ${probabilityValue.toFixed(2)}`
+    ); // Jika ada perbedaan signifikan antara skor risiko dan output model
+    if (Math.abs(normalizedRiskScore - probabilityValue) > 0.4) {
       console.log(
         "Model output appears inconsistent with risk factors, adjusting prediction"
-      );
-      // Override model prediction dengan skor risiko yang dihitung
-      probabilityValue = 1 - normalizedRiskScore;
-
-      // Perbarui risk level
+      ); // Override model prediction dengan skor risiko yang dihitung
+      probabilityValue = normalizedRiskScore; // Perbarui risk level
       if (probabilityValue > 0.7) {
-        riskLevel = "Low Risk";
+        riskLevel = "High Risk";
       } else if (probabilityValue > 0.3) {
         riskLevel = "Moderate Risk";
       } else {
-        riskLevel = "High Risk";
+        riskLevel = "Low Risk";
       }
-    }
-
-    // Generate detailed assessment of risk factors
+    } // Generate detailed assessment of risk factors
     const details = {
       factors: {
         bloodGlucoseLevel:
-          inputData.bloodGlucoseLevel > 140 ? "High" : "Normal",
-        hbA1cLevel: inputData.hbA1cLevel > 6.5 ? "Elevated" : "Normal",
-        bmi: inputData.bmi > 25 ? "Overweight" : "Normal",
-        hypertension: inputData.hypertension ? "Present" : "Absent",
-        heartDisease: inputData.heartDisease ? "Present" : "Absent",
+          completeData.bloodGlucoseLevel > 140 ? "High" : "Normal",
+        hbA1cLevel: completeData.hbA1cLevel > 6.5 ? "Elevated" : "Normal",
+        bmi: completeData.bmi > 25 ? "Overweight" : "Normal",
+        hypertension: completeData.hypertension ? "Present" : "Absent",
+        heartDisease: completeData.heartDisease ? "Present" : "Absent",
       },
+      estimatedFields: [],
     };
 
+    // Tandai field yang diestimasi
+    if (inputData.bloodGlucoseLevel === undefined)
+      details.estimatedFields.push("bloodGlucoseLevel");
+    if (inputData.hbA1cLevel === undefined)
+      details.estimatedFields.push("hbA1cLevel");
+    if (inputData.hypertension === undefined)
+      details.estimatedFields.push("hypertension"); // Hitung perkiraan akurasi prediksi berdasarkan jumlah field yang diestimasi
+    let accuracy = 1.0; // 100% jika semua data lengkap
+
+    // Kurangi akurasi berdasarkan field yang diestimasi
+    if (details.estimatedFields.includes("bloodGlucoseLevel")) accuracy -= 0.15;
+    if (details.estimatedFields.includes("hbA1cLevel")) accuracy -= 0.15;
+    if (details.estimatedFields.includes("hypertension")) accuracy -= 0.05;
+
+    // Pastikan akurasi tidak negatif dan dibulatkan ke 2 desimal
+    accuracy = Math.max(0, parseFloat(accuracy.toFixed(2)));
     return {
       prediction: riskLevel,
-      probability: parseFloat(probabilityValue.toFixed(2)),
+      riskScore: parseFloat(probabilityValue.toFixed(2)),
       details,
+      accuracy: accuracy,
+      isEstimated: details.estimatedFields.length > 0,
+      estimatedFields: details.estimatedFields,
     };
   } catch (error) {
     console.error("Error making prediction:", error);
