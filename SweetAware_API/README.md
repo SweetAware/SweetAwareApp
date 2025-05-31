@@ -90,6 +90,7 @@ https://sweetaware-api.netlify.app
      ```
 
 3. **Get User Profile**
+
    - **URL:** `GET /api/auth/profile`
    - **Headers:**
      ```
@@ -104,6 +105,37 @@ https://sweetaware-api.netlify.app
            "id": "60d21b4667d0d8992e610c85",
            "username": "johndoe",
            "email": "john@example.com",
+           "createdAt": "2023-06-22T08:24:22.000Z"
+         }
+       }
+     }
+     ```
+
+4. **Update User Profile**
+   - **URL:** `PUT /api/auth/profile`
+   - **Headers:**
+     ```
+     Authorization: Bearer [JWT_TOKEN]
+     ```
+   - **Request Body:** (semua field bersifat opsional, minimal satu harus disertakan)
+     ```json
+     {
+       "username": "johnupdated",
+       "email": "johnupdated@example.com",
+       "currentPassword": "password123",
+       "newPassword": "newpassword123"
+     }
+     ```
+   - **Response:**
+     ```json
+     {
+       "status": "success",
+       "message": "Profile updated successfully",
+       "data": {
+         "user": {
+           "id": "60d21b4667d0d8992e610c85",
+           "username": "johnupdated",
+           "email": "johnupdated@example.com",
            "createdAt": "2023-06-22T08:24:22.000Z"
          }
        }
@@ -247,6 +279,29 @@ https://sweetaware-api.netlify.app
          }
        }
      }
+     ```
+
+### Articles
+
+1. **Get Articles**
+   - **URL:** `GET /api/articles?topic=diabetes&limit=5`
+   - **Query Parameters:**
+     - `topic` (optional): Filter articles by topic (default: 'diabetes')
+     - `limit` (optional): Number of articles to return (default: 10, max: 50)
+   - **No Authentication Required**
+   - **Response:**
+     ```json
+     [
+       {
+         "title": "Cara Mengontrol Gula Darah Secara Alami",
+         "summary": "Berikut adalah beberapa tips alami untuk menjaga kadar gula darah tetap stabil...",
+         "url": "https://news.example.com/artikel-diabetes",
+         "source": "Healthline",
+         "publishedAt": "2025-05-28T12:00:00Z",
+         "imageUrl": "https://example.com/images/diabetes-care.jpg"
+       }
+       // More articles
+     ]
      ```
 
 ## Future Enhancements

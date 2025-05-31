@@ -34,6 +34,16 @@ const authRoutes = {
           tags: ["api", "auth"],
         },
       },
+      {
+        method: "PUT",
+        path: "/api/auth/profile",
+        handler: authController.updateProfile,
+        options: {
+          auth: "jwt",
+          description: "Update user profile",
+          tags: ["api", "auth"],
+        },
+      },
     ]);
   },
 };
