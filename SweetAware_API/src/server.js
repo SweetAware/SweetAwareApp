@@ -4,6 +4,7 @@ const config = require("./config");
 const connectDB = require("./config/database");
 const routes = require("./routes");
 const { verifyToken } = require("./utils/auth");
+const DiabetesPredictionService = require("./utils/predictionService");
 
 const init = async () => {
   // Create the Hapi server
@@ -58,7 +59,20 @@ const init = async () => {
       };
     },
     options: { auth: false },
-  });
+  }); // Initialize the ML model
+  try {
+    // Check if the initialize method exists in DiabetesPredictionService
+    if (typeof DiabetesPredictionService.initialize === "function") {
+      await DiabetesPredictionService.initialize();
+    } else {
+      // If not, use the predictionModel directly
+      const predictionModel = require("./utils/predictionModel");
+      await predictionModel.initModel();
+    }
+    console.log("Machine Learning model initialized");
+  } catch (error) {
+    console.error("Failed to initialize ML model:", error);
+  }
 
   // Start the server
   await server.start();
