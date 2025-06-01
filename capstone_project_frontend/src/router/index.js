@@ -6,6 +6,7 @@ import Edukasi from '../pages/Edukasi.vue'
 import SignIn from '../pages/SignIn.vue'
 import SignUp from '../pages/SignUp.vue'
 import Contact from '../pages/Contact.vue'
+import Articles from '../pages/Articles.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -34,6 +35,11 @@ const router = createRouter({
       path: '/edukasi',
       name: 'edukasi',
       component: Edukasi,
+    },
+    {
+      path: '/articles',
+      name: 'articles',
+      component: Articles,
     },
     {
       path: '/signin',

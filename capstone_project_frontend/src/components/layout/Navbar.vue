@@ -8,6 +8,7 @@
         <router-link to="/" class="text-gray-700 hover:text-blue-600">Home</router-link>
         <router-link to="/about" class="text-gray-700 hover:text-blue-600">About</router-link>
         <router-link to="/edukasi" class="text-gray-700 hover:text-blue-600">Edukasi</router-link>
+        <router-link to="/articles" class="text-gray-700 hover:text-blue-600">Artikel</router-link>
         <router-link to="/contact" class="text-gray-700 hover:text-blue-600">Contact</router-link>
       </div>
       <div class="flex items-center space-x-4">
