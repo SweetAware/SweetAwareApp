@@ -7,12 +7,12 @@ const DiabetesPredictionService = require("../utils/predictionService");
 const predictionValidation = Joi.object({
   gender: Joi.string().valid("Male", "Female").required(),
   age: Joi.number().required(),
-  hypertension: Joi.boolean().required(),
+  hypertension: Joi.boolean().optional().default(false),
   heartDisease: Joi.boolean().required(),
   smokingHistory: Joi.string().valid("never", "former", "current").required(),
   bmi: Joi.number().required(),
-  hbA1cLevel: Joi.number().required(),
-  bloodGlucoseLevel: Joi.number().required(),
+  hbA1cLevel: Joi.number().optional(),
+  bloodGlucoseLevel: Joi.number().optional(),
 });
 
 // Create a new prediction
@@ -20,10 +20,23 @@ const createPrediction = async (request, h) => {
   try {
     const { error } = predictionValidation.validate(request.payload);
     if (error) {
+      // Pesan error yang lebih user-friendly
+      let errorMessage = error.details[0].message;
+
+      // Jika error terkait field opsional, berikan informasi tambahan
+      if (
+        errorMessage.includes("hbA1cLevel") ||
+        errorMessage.includes("bloodGlucoseLevel") ||
+        errorMessage.includes("hypertension")
+      ) {
+        errorMessage +=
+          ". Anda dapat melanjutkan tanpa mengisi nilai ini, sistem akan memberikan estimasi berdasarkan data lain yang Anda berikan.";
+      }
+
       return h
         .response({
           status: "error",
-          message: error.details[0].message,
+          message: errorMessage,
         })
         .code(400);
     }
@@ -46,12 +59,10 @@ const createPrediction = async (request, h) => {
       // Add recommendations to the prediction result
       predictionResult.recommendations = recommendations;
     } catch (modelError) {
-      console.error("Error using ML model for prediction:", modelError);
-
-      // Fallback to mock prediction if model fails
+      console.error("Error using ML model for prediction:", modelError); // Fallback to mock prediction if model fails
       predictionResult = {
         prediction: Math.random() > 0.5 ? "High Risk" : "Low Risk",
-        probability: Math.random(),
+        riskScore: Math.random(),
         details: {
           factors: {
             bloodGlucoseLevel:
@@ -148,7 +159,7 @@ const getPredictionHistory = async (request, h) => {
           },
           result: {
             prediction: Math.random() > 0.5 ? "High Risk" : "Low Risk",
-            probability: Math.random(),
+            riskScore: Math.random(),
             details: { factors: {} },
           },
           createdAt: new Date(Date.now() - i * 24 * 60 * 60 * 1000), // Each one day apart
@@ -238,7 +249,7 @@ const getPredictionById = async (request, h) => {
         },
         result: {
           prediction: "High Risk",
-          probability: 0.75,
+          riskScore: 0.75,
           details: {
             factors: {
               glucose: "High",
