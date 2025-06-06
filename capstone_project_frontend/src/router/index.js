@@ -1,62 +1,65 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../pages/Home.vue'
-import Diagnose from '../pages/Diagnose.vue'
-import About from '../pages/About.vue'
-import Edukasi from '../pages/Edukasi.vue'
-import SignIn from '../pages/SignIn.vue'
-import SignUp from '../pages/SignUp.vue'
-import Contact from '../pages/Contact.vue'
-import Articles from '../pages/Articles.vue'
+import Home from '@/views/Home.vue'
+import Diagnose from '@/views/Diagnose.vue'
+import PredictionHistory from '@/views/PredictionHistory.vue'
+import LoginForm from '@/views/auth/LoginForm.vue'
+import RegisterForm from '@/views/auth/RegisterForm.vue'
+import Articles from '@/views/Articles.vue'
+import About from '@/views/About.vue'
+import Education from '@/views/Education.vue'
+import Contact from '@/views/Contact.vue'
+
+const routes = [
+  {
+    path: '/',
+    name: 'Home',
+    component: Home,
+  },
+  {
+    path: '/diagnose',
+    name: 'Diagnose',
+    component: Diagnose,
+  },
+  {
+    path: '/history',
+    name: 'PredictionHistory',
+    component: PredictionHistory,
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: LoginForm,
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: RegisterForm,
+  },
+  {
+    path: '/artikel',
+    name: 'Articles',
+    component: Articles,
+  },
+  {
+    path: '/tentang',
+    name: 'About',
+    component: About,
+  },
+  {
+    path: '/edukasi',
+    name: 'Education',
+    component: Education,
+  },
+  {
+    path: '/kontak',
+    name: 'Contact',
+    component: Contact,
+  },
+]
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: Home,
-    },
-    {
-      path: '/diagnose',
-      name: 'diagnose',
-      component: Diagnose,
-    },
-    {
-      path: '/history',
-      name: 'history',
-      component: () => import('../pages/PredictionHistory.vue'),
-    },
-    {
-      path: '/about',
-      name: 'about',
-      component: About,
-    },
-    {
-      path: '/edukasi',
-      name: 'edukasi',
-      component: Edukasi,
-    },
-    {
-      path: '/articles',
-      name: 'articles',
-      component: Articles,
-    },
-    {
-      path: '/signin',
-      name: 'signin',
-      component: SignIn,
-    },
-    {
-      path: '/signup',
-      name: 'signup',
-      component: SignUp,
-    },
-    {
-      path: '/contact',
-      name: 'contact',
-      component: Contact,
-    },
-  ],
+  history: createWebHistory(),
+  routes,
 })
 
 export default router
