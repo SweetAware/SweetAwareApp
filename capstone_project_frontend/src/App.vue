@@ -1,15 +1,24 @@
-<script setup>
-import Navbar from './components/layout/Navbar.vue'
-import Home from './pages/Home.vue'
-</script>
-
 <template>
-  <div class="min-h-screen bg-gray-50">
+  <div class="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
     <Navbar />
     <router-view />
   </div>
 </template>
 
-<style scoped>
-/* Additional custom styles can go here */
+<script setup>
+import Navbar from '@/components/Navbar.vue'
+</script>
+
+<style>
+#app {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Dark mode transition */
+.transition-colors {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
 </style>
