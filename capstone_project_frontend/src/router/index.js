@@ -8,6 +8,8 @@ import Articles from '@/views/Articles.vue'
 import About from '@/views/About.vue'
 import Education from '@/views/Education.vue'
 import Contact from '@/views/Contact.vue'
+import Profile from '@/views/Profile.vue'
+import Dashboard from '@/views/Dashboard.vue'
 
 const routes = [
   {
@@ -36,6 +38,11 @@ const routes = [
     component: RegisterForm,
   },
   {
+    path: '/profile',
+    name: 'Profile',
+    component: Profile,
+  },
+  {
     path: '/artikel',
     name: 'Articles',
     component: Articles,
@@ -54,6 +61,11 @@ const routes = [
     path: '/kontak',
     name: 'Contact',
     component: Contact,
+  },
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: Dashboard,
   },
 ]
 
