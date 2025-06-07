@@ -17,13 +17,31 @@
               data
             </p>
 
+            <!-- Form Information -->
+            <div class="mb-8 p-4 bg-violet-50 dark:bg-violet-900/20 rounded-lg">
+              <div class="flex items-start gap-3">
+                <i class="fas fa-info-circle text-violet-600 dark:text-violet-400 mt-1"></i>
+                <div>
+                  <p class="text-gray-700 dark:text-gray-200 mb-2">
+                    Fields marked with <span class="text-red-500">*</span> are required for basic
+                    prediction.
+                  </p>
+                  <p class="text-gray-600 dark:text-gray-300 text-sm">
+                    Optional fields (Blood Glucose Level and HbA1c Level) enhance prediction
+                    accuracy. Including these values will provide a more precise assessment of your
+                    diabetes risk.
+                  </p>
+                </div>
+              </div>
+            </div>
+
             <!-- Form content -->
             <form @submit.prevent="handleSubmit" class="space-y-10">
               <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8">
                 <!-- Age Input -->
                 <div>
                   <label class="text-base font-medium text-gray-700 dark:text-gray-200 mb-3 block"
-                    >Age</label
+                    >Age <span class="text-red-500">*</span></label
                   >
                   <input
                     type="number"
@@ -37,7 +55,7 @@
                 <!-- Gender Selection -->
                 <div>
                   <label class="text-base font-medium text-gray-700 dark:text-gray-200 mb-3 block"
-                    >Gender</label
+                    >Gender <span class="text-red-500">*</span></label
                   >
                   <div class="grid grid-cols-2 gap-4">
                     <button
@@ -66,20 +84,65 @@
                     </button>
                   </div>
                 </div>
-
                 <!-- BMI Input -->
                 <div>
-                  <label class="text-base font-medium text-gray-700 dark:text-gray-200 mb-3 block"
-                    >Body Mass Index (BMI)</label
-                  >
-                  <input
-                    type="number"
-                    v-model="predictionData.bmi"
-                    placeholder="Enter your BMI"
-                    required
-                    step="0.01"
-                    class="w-full px-5 py-4 rounded-md border border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-colors text-base dark:bg-gray-800 dark:text-white dark:border-gray-600"
-                  />
+                  <label class="text-base font-medium text-gray-700 dark:text-gray-200 mb-3 block">
+                    Body Mass Index (BMI) <span class="text-red-500">*</span>
+                  </label>
+                  <div v-if="!showBmiCalculator" class="space-y-3">
+                    <input
+                      type="number"
+                      v-model="predictionData.bmi"
+                      placeholder="Enter your BMI"
+                      required
+                      step="0.01"
+                      class="w-full px-5 py-4 rounded-md border border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-colors text-base dark:bg-gray-800 dark:text-white dark:border-gray-600"
+                    />
+                    <button
+                      type="button"
+                      @click="toggleBmiCalculator"
+                      class="w-full px-4 py-3 bg-violet-100 text-violet-700 dark:bg-violet-900 dark:text-violet-300 rounded-md hover:bg-violet-200 dark:hover:bg-violet-800 transition-colors flex items-center justify-center gap-2 text-base"
+                    >
+                      <i class="fas fa-calculator"></i>
+                      <span>Calculate BMI using Height & Weight</span>
+                    </button>
+                  </div>
+                  <div v-else class="space-y-3">
+                    <div class="grid grid-cols-2 gap-3">
+                      <div>
+                        <input
+                          type="number"
+                          v-model="height"
+                          placeholder="Height (cm)"
+                          class="w-full px-5 py-4 rounded-md border border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-colors text-base dark:bg-gray-800 dark:text-white dark:border-gray-600"
+                        />
+                      </div>
+                      <div>
+                        <input
+                          type="number"
+                          v-model="weight"
+                          placeholder="Weight (kg)"
+                          class="w-full px-5 py-4 rounded-md border border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-colors text-base dark:bg-gray-800 dark:text-white dark:border-gray-600"
+                        />
+                      </div>
+                    </div>
+                    <div class="flex gap-2">
+                      <button
+                        type="button"
+                        @click="calculateBmi"
+                        class="flex-1 bg-violet-600 text-white py-3 rounded-md hover:bg-violet-700 transition-colors"
+                      >
+                        Calculate BMI
+                      </button>
+                      <button
+                        type="button"
+                        @click="toggleBmiCalculator"
+                        class="px-4 py-3 border border-gray-300 rounded-md hover:bg-gray-50 dark:border-gray-600 dark:hover:bg-gray-800 transition-colors dark:text-gray-200"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
                 </div>
 
                 <!-- Blood Glucose Level Input -->
@@ -91,14 +154,24 @@
                     type="number"
                     v-model="predictionData.bloodGlucoseLevel"
                     placeholder="Enter blood glucose level"
+                    @input="
+                      (e) =>
+                        (predictionData.bloodGlucoseLevel =
+                          e.target.value === '' ? undefined : Number(e.target.value))
+                    "
                     class="w-full px-5 py-4 rounded-md border border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-colors text-base dark:bg-gray-800 dark:text-white dark:border-gray-600"
                   />
+                  <p class="mt-2 text-sm text-amber-600 dark:text-amber-400">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    Including this value will significantly improve the accuracy of your diabetes
+                    risk assessment
+                  </p>
                 </div>
 
                 <!-- Hypertension -->
                 <div>
                   <label class="text-base font-medium text-gray-700 dark:text-gray-200 mb-3 block"
-                    >Hypertension</label
+                    >Hypertension <span class="text-red-500">*</span></label
                   >
                   <div class="grid grid-cols-2 gap-4">
                     <button
@@ -131,7 +204,7 @@
                 <!-- Heart Disease -->
                 <div>
                   <label class="text-base font-medium text-gray-700 dark:text-gray-200 mb-3 block"
-                    >Heart Disease</label
+                    >Heart Disease <span class="text-red-500">*</span></label
                   >
                   <div class="grid grid-cols-2 gap-4">
                     <button
@@ -171,14 +244,24 @@
                     v-model="predictionData.hbA1cLevel"
                     placeholder="Enter HbA1c level"
                     step="0.1"
+                    @input="
+                      (e) =>
+                        (predictionData.hbA1cLevel =
+                          e.target.value === '' ? undefined : Number(e.target.value))
+                    "
                     class="w-full px-5 py-4 rounded-md border border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-colors text-base dark:bg-gray-800 dark:text-white dark:border-gray-600"
                   />
+                  <p class="mt-2 text-sm text-amber-600 dark:text-amber-400">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    Including this value will significantly improve the accuracy of your diabetes
+                    risk assessment
+                  </p>
                 </div>
 
                 <!-- Smoking History -->
                 <div>
                   <label class="text-base font-medium text-gray-700 dark:text-gray-200 mb-3 block"
-                    >Smoking History</label
+                    >Smoking History <span class="text-red-500">*</span></label
                   >
                   <div class="grid grid-cols-3 gap-3">
                     <button
@@ -389,13 +472,16 @@ export default {
         heartDisease: false,
         smokingHistory: '',
         bmi: null,
-        hbA1cLevel: null,
-        bloodGlucoseLevel: null,
+        hbA1cLevel: undefined,
+        bloodGlucoseLevel: undefined,
       },
       predictionResult: null,
       loading: false,
       processingNotification: null,
       notificationService: new NotificationService(),
+      showBmiCalculator: false,
+      height: null,
+      weight: null,
     }
   },
   created() {
@@ -406,10 +492,10 @@ export default {
       this.loading = value
     },
     showError(message) {
-      alert(message) // You can replace this with a better notification system
+      alert(message)
     },
     showSuccess(message) {
-      alert(message) // You can replace this with a better notification system
+      alert(message)
     },
     formatLabel(key) {
       return key
@@ -418,15 +504,44 @@ export default {
         .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
         .join(' ')
     },
+    toggleBmiCalculator() {
+      this.showBmiCalculator = !this.showBmiCalculator
+      if (!this.showBmiCalculator) {
+        // Reset values when closing calculator
+        this.height = null
+        this.weight = null
+      }
+    },
+    calculateBmi() {
+      if (!this.height || !this.weight) {
+        this.showError('Please enter both height and weight')
+        return
+      }
+      // Convert height to meters (from cm) and calculate BMI
+      const heightInMeters = this.height / 100
+      const bmi = this.weight / (heightInMeters * heightInMeters)
+      this.predictionData.bmi = parseFloat(bmi.toFixed(1))
+      this.showBmiCalculator = false
+      this.height = null
+      this.weight = null
+    },
     async handleSubmit() {
       if (
         !this.predictionData.gender ||
         !this.predictionData.age ||
         !this.predictionData.smokingHistory ||
-        !this.predictionData.bmi
+        !this.predictionData.bmi ||
+        this.predictionData.hypertension === undefined ||
+        this.predictionData.heartDisease === undefined
       ) {
         this.showError('Please fill in all required fields')
         return
+      } // Handle optional fields
+      if (this.predictionData.hbA1cLevel === '') {
+        delete this.predictionData.hbA1cLevel
+      }
+      if (this.predictionData.bloodGlucoseLevel === '') {
+        delete this.predictionData.bloodGlucoseLevel
       }
 
       try {

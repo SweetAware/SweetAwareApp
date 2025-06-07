@@ -10,7 +10,7 @@
       </div>
 
       <!-- Stats Overview -->
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-6 mb-8">
         <!-- Total Predictions -->
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
           <div class="flex items-center">
@@ -36,6 +36,23 @@
               <p class="text-sm font-medium text-gray-500 dark:text-gray-400">High Risk Cases</p>
               <p class="text-2xl font-semibold text-gray-900 dark:text-white">
                 {{ statistics.highRisk }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Moderate Risk Cases -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+          <div class="flex items-center">
+            <div class="p-3 rounded-full bg-yellow-100 dark:bg-yellow-900">
+              <i class="fas fa-exclamation-circle text-yellow-600 dark:text-yellow-200"></i>
+            </div>
+            <div class="ml-4">
+              <p class="text-sm font-medium text-gray-500 dark:text-gray-400">
+                Moderate Risk Cases
+              </p>
+              <p class="text-2xl font-semibold text-gray-900 dark:text-white">
+                {{ statistics.moderateRisk }}
               </p>
             </div>
           </div>
@@ -103,6 +120,7 @@
               >
                 <option value="">All Risks</option>
                 <option value="High Risk">High Risk</option>
+                <option value="Moderate Risk">Moderate Risk</option>
                 <option value="Low Risk">Low Risk</option>
               </select>
               <select
@@ -154,6 +172,10 @@
                       'px-2 py-1 text-xs font-medium rounded-full': true,
                       'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200':
                         prediction.result.prediction === 'High Risk',
+                      'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200':
+                        prediction.result.prediction === 'Moderate Risk',
+                      'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200':
+                        prediction.result.prediction === 'Moderate Risk',
                       'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200':
                         prediction.result.prediction === 'Low Risk',
                     }"
@@ -234,8 +256,10 @@ export default defineComponent({
         total: 0,
         highRisk: 0,
         lowRisk: 0,
+        moderateRisk: 0,
         highRiskPercentage: 0,
         lowRiskPercentage: 0,
+        moderateRiskPercentage: 0,
       },
       filter: {
         risk: '',
@@ -304,11 +328,11 @@ export default defineComponent({
         },
       },
       distributionChartData: {
-        labels: ['High Risk', 'Low Risk'],
+        labels: ['High Risk', 'Moderate Risk', 'Low Risk'],
         datasets: [
           {
-            data: [0, 0],
-            backgroundColor: ['#EF4444', '#10B981'],
+            data: [0, 0, 0],
+            backgroundColor: ['#EF4444', '#F59E0B', '#10B981'],
           },
         ],
       },
@@ -392,14 +416,19 @@ export default defineComponent({
     updateStatistics() {
       const total = this.predictions.length
       const highRisk = this.predictions.filter((p) => p.result.prediction === 'High Risk').length
-      const lowRisk = total - highRisk
+      const lowRisk = this.predictions.filter((p) => p.result.prediction === 'Low Risk').length
+      const moderateRisk = this.predictions.filter(
+        (p) => p.result.prediction === 'Moderate Risk',
+      ).length
 
       this.statistics = {
         total,
         highRisk,
         lowRisk,
+        moderateRisk,
         highRiskPercentage: total ? Math.round((highRisk / total) * 100) : 0,
         lowRiskPercentage: total ? Math.round((lowRisk / total) * 100) : 0,
+        moderateRiskPercentage: total ? Math.round((moderateRisk / total) * 100) : 0,
       }
 
       // Update distribution chart
@@ -424,18 +453,19 @@ export default defineComponent({
             fill: true,
           },
         ],
-      }
-
-      // Update distribution chart
+      } // Update distribution chart
       const highRisk = this.predictions.filter((p) => p.result.prediction === 'High Risk').length
-      const lowRisk = this.predictions.length - highRisk
+      const moderateRisk = this.predictions.filter(
+        (p) => p.result.prediction === 'Moderate Risk',
+      ).length
+      const lowRisk = this.predictions.filter((p) => p.result.prediction === 'Low Risk').length
 
       this.distributionChartData = {
-        labels: ['High Risk', 'Low Risk'],
+        labels: ['High Risk', 'Moderate Risk', 'Low Risk'],
         datasets: [
           {
-            data: [highRisk, lowRisk],
-            backgroundColor: ['#EF4444', '#10B981'],
+            data: [highRisk, moderateRisk, lowRisk],
+            backgroundColor: ['#EF4444', '#F59E0B', '#10B981'],
             borderWidth: 0,
           },
         ],

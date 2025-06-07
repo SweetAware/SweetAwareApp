@@ -251,6 +251,24 @@
               </div>
             </div>
 
+            <!-- Moderate Risk -->
+            <div class="bg-yellow-50 dark:bg-yellow-900 p-6 rounded-lg">
+              <div class="flex justify-between items-start">
+                <div>
+                  <p class="text-yellow-600 dark:text-yellow-200 font-medium">Moderate Risk</p>
+                  <h3 class="text-2xl font-bold mt-1 dark:text-white">
+                    {{ statistics.moderateRisk }}
+                  </h3>
+                  <p class="text-sm text-yellow-600 dark:text-yellow-200 mt-1">
+                    {{ statistics.moderateRiskPercentage }}% of total
+                  </p>
+                </div>
+                <div class="text-yellow-600 dark:text-yellow-200">
+                  <i class="fas fa-exclamation-circle text-xl"></i>
+                </div>
+              </div>
+            </div>
+
             <!-- Low Risk -->
             <div class="bg-green-50 dark:bg-green-900 p-6 rounded-lg">
               <div class="flex justify-between items-start">
@@ -617,8 +635,10 @@ export default defineComponent({
         total: 0,
         highRisk: 0,
         lowRisk: 0,
+        moderateRisk: 0,
         highRiskPercentage: 0,
         lowRiskPercentage: 0,
+        moderateRiskPercentage: 0,
       },
       showModal: false,
       selectedPrediction: null,
@@ -682,13 +702,18 @@ export default defineComponent({
     updateStatistics() {
       const total = this.predictions.length
       const highRisk = this.predictions.filter((p) => p.result.prediction === 'High Risk').length
-      const lowRisk = total - highRisk
+      const moderateRisk = this.predictions.filter(
+        (p) => p.result.prediction === 'Moderate Risk',
+      ).length
+      const lowRisk = this.predictions.filter((p) => p.result.prediction === 'Low Risk').length
 
       this.statistics = {
         total,
         highRisk,
+        moderateRisk,
         lowRisk,
         highRiskPercentage: total ? Math.round((highRisk / total) * 100) : 0,
+        moderateRiskPercentage: total ? Math.round((moderateRisk / total) * 100) : 0,
         lowRiskPercentage: total ? Math.round((lowRisk / total) * 100) : 0,
       }
     },
