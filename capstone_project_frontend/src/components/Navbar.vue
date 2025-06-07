@@ -87,7 +87,7 @@
           <div v-if="isAuthenticated" class="relative">
             <button
               @click="toggleDropdown"
-              class="p-2 text-gray-600 dark:text-gray-300 flex items-center"
+              class="p-2 text-gray-600 dark:text-gray-300 flex items-center profile-button"
             >
               <img
                 :src="profileImage"
@@ -98,23 +98,26 @@
             <!-- Dropdown Menu -->
             <div
               v-if="isDropdownOpen"
-              class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-50"
+              class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-50 dropdown-menu"
             >
               <router-link
                 to="/dashboard"
                 class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-purple-900"
+                @click="isDropdownOpen = false"
               >
                 <i class="fas fa-gauge-high mr-2"></i>Dashboard
               </router-link>
               <router-link
                 to="/history"
                 class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-purple-900"
+                @click="isDropdownOpen = false"
               >
                 <i class="fas fa-clock-rotate-left mr-2"></i>Prediction History
               </router-link>
               <router-link
                 to="/profile"
                 class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-purple-900"
+                @click="isDropdownOpen = false"
               >
                 <i class="fas fa-user mr-2"></i>Profile
               </router-link>
@@ -181,6 +184,12 @@ export default defineComponent({
       await this.checkNotificationStatus()
     }
   },
+  mounted() {
+    document.addEventListener('click', this.handleClickOutside)
+  },
+  unmounted() {
+    document.removeEventListener('click', this.handleClickOutside)
+  },
   methods: {
     showError(message) {
       Swal.fire({
@@ -200,6 +209,19 @@ export default defineComponent({
     },
     toggleDropdown() {
       this.isDropdownOpen = !this.isDropdownOpen
+    },
+    handleClickOutside(event) {
+      const profileButton = this.$el.querySelector('.profile-button')
+      const dropdown = this.$el.querySelector('.dropdown-menu')
+      if (
+        this.isDropdownOpen &&
+        profileButton &&
+        dropdown &&
+        !profileButton.contains(event.target) &&
+        !dropdown.contains(event.target)
+      ) {
+        this.isDropdownOpen = false
+      }
     },
     async checkNotificationStatus() {
       try {
