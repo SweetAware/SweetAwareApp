@@ -54,6 +54,22 @@
                 </div>
               </div>
 
+              <!-- Moderate Risk -->
+              <div class="bg-yellow-50 dark:bg-yellow-900 p-6 rounded-lg">
+                <div class="flex justify-between items-start">
+                  <div>
+                    <p class="text-yellow-600 dark:text-yellow-200 font-medium">Moderate Risk</p>
+                    <h3 class="text-2xl font-bold mt-1 dark:text-white">{{ moderateRiskCount }}</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-300 mt-1">
+                      {{ moderateRiskPercentage }}% of total
+                    </p>
+                  </div>
+                  <div class="text-yellow-600 dark:text-yellow-200">
+                    <i class="fas fa-exclamation-circle text-xl"></i>
+                  </div>
+                </div>
+              </div>
+
               <!-- Low Risk -->
               <div class="bg-green-50 dark:bg-green-900 p-6 rounded-lg">
                 <div class="flex justify-between items-start">
@@ -147,6 +163,8 @@
                           'px-2 py-1 text-xs font-medium rounded-full': true,
                           'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200':
                             prediction.result.prediction === 'High Risk',
+                          'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200':
+                            prediction.result.prediction === 'Moderate Risk',
                           'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200':
                             prediction.result.prediction === 'Low Risk',
                         }"
@@ -288,6 +306,9 @@ export default {
     lowRiskCount() {
       return this.filteredPredictions.filter((p) => p.result.prediction === 'Low Risk').length
     },
+    moderateRiskCount() {
+      return this.filteredPredictions.filter((p) => p.result.prediction === 'Moderate Risk').length
+    },
     highRiskPercentage() {
       return this.filteredPredictions.length
         ? Math.round((this.highRiskCount / this.filteredPredictions.length) * 100)
@@ -296,6 +317,11 @@ export default {
     lowRiskPercentage() {
       return this.filteredPredictions.length
         ? Math.round((this.lowRiskCount / this.filteredPredictions.length) * 100)
+        : 0
+    },
+    moderateRiskPercentage() {
+      return this.filteredPredictions.length
+        ? Math.round((this.moderateRiskCount / this.filteredPredictions.length) * 100)
         : 0
     },
   },
