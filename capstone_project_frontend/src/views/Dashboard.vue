@@ -10,80 +10,88 @@
       </div>
 
       <!-- Stats Overview -->
-      <div class="grid grid-cols-1 md:grid-cols-5 gap-6 mb-8">
-        <!-- Total Predictions -->
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-          <div class="flex items-center">
-            <div class="p-3 rounded-full bg-blue-100 dark:bg-blue-900">
-              <i class="fas fa-chart-line text-blue-600 dark:text-blue-200"></i>
+      <div class="grid gap-6 mb-8">
+        <!-- First Row -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Total Predictions -->
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+            <div class="flex items-center">
+              <div class="p-3 rounded-full bg-blue-100 dark:bg-blue-900">
+                <i class="fas fa-chart-line text-blue-600 dark:text-blue-200"></i>
+              </div>
+              <div class="ml-4">
+                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">
+                  Total Predictions
+                </p>
+                <p class="text-2xl font-semibold text-gray-900 dark:text-white">
+                  {{ statistics.total }}
+                </p>
+              </div>
             </div>
-            <div class="ml-4">
-              <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Predictions</p>
-              <p class="text-2xl font-semibold text-gray-900 dark:text-white">
-                {{ statistics.total }}
-              </p>
+          </div>
+
+          <!-- Risk Score Average -->
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+            <div class="flex items-center">
+              <div class="p-3 rounded-full bg-purple-100 dark:bg-purple-900">
+                <i class="fas fa-gauge-high text-purple-600 dark:text-purple-200"></i>
+              </div>
+              <div class="ml-4">
+                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Avg Risk Score</p>
+                <p class="text-2xl font-semibold text-gray-900 dark:text-white">
+                  {{ averageRiskScore }}
+                </p>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- High Risk Cases -->
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-          <div class="flex items-center">
-            <div class="p-3 rounded-full bg-red-100 dark:bg-red-900">
-              <i class="fas fa-triangle-exclamation text-red-600 dark:text-red-200"></i>
-            </div>
-            <div class="ml-4">
-              <p class="text-sm font-medium text-gray-500 dark:text-gray-400">High Risk Cases</p>
-              <p class="text-2xl font-semibold text-gray-900 dark:text-white">
-                {{ statistics.highRisk }}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Moderate Risk Cases -->
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-          <div class="flex items-center">
-            <div class="p-3 rounded-full bg-yellow-100 dark:bg-yellow-900">
-              <i class="fas fa-exclamation-circle text-yellow-600 dark:text-yellow-200"></i>
-            </div>
-            <div class="ml-4">
-              <p class="text-sm font-medium text-gray-500 dark:text-gray-400">
-                Moderate Risk Cases
-              </p>
-              <p class="text-2xl font-semibold text-gray-900 dark:text-white">
-                {{ statistics.moderateRisk }}
-              </p>
+        <!-- Second Row -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Low Risk Cases -->
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+            <div class="flex items-center">
+              <div class="p-3 rounded-full bg-green-100 dark:bg-green-900">
+                <i class="fas fa-check-circle text-green-600 dark:text-green-200"></i>
+              </div>
+              <div class="ml-4">
+                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Low Risk Cases</p>
+                <p class="text-2xl font-semibold text-gray-900 dark:text-white">
+                  {{ statistics.lowRisk }}
+                </p>
+              </div>
             </div>
           </div>
-        </div>
 
-        <!-- Low Risk Cases -->
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-          <div class="flex items-center">
-            <div class="p-3 rounded-full bg-green-100 dark:bg-green-900">
-              <i class="fas fa-check-circle text-green-600 dark:text-green-200"></i>
-            </div>
-            <div class="ml-4">
-              <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Low Risk Cases</p>
-              <p class="text-2xl font-semibold text-gray-900 dark:text-white">
-                {{ statistics.lowRisk }}
-              </p>
+          <!-- Moderate Risk Cases -->
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+            <div class="flex items-center">
+              <div class="p-3 rounded-full bg-yellow-100 dark:bg-yellow-900">
+                <i class="fas fa-exclamation-circle text-yellow-600 dark:text-yellow-200"></i>
+              </div>
+              <div class="ml-4">
+                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">
+                  Moderate Risk Cases
+                </p>
+                <p class="text-2xl font-semibold text-gray-900 dark:text-white">
+                  {{ statistics.moderateRisk }}
+                </p>
+              </div>
             </div>
           </div>
-        </div>
 
-        <!-- Risk Score Average -->
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-          <div class="flex items-center">
-            <div class="p-3 rounded-full bg-purple-100 dark:bg-purple-900">
-              <i class="fas fa-gauge-high text-purple-600 dark:text-purple-200"></i>
-            </div>
-            <div class="ml-4">
-              <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Avg Risk Score</p>
-              <p class="text-2xl font-semibold text-gray-900 dark:text-white">
-                {{ averageRiskScore }}
-              </p>
+          <!-- High Risk Cases -->
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+            <div class="flex items-center">
+              <div class="p-3 rounded-full bg-red-100 dark:bg-red-900">
+                <i class="fas fa-triangle-exclamation text-red-600 dark:text-red-200"></i>
+              </div>
+              <div class="ml-4">
+                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">High Risk Cases</p>
+                <p class="text-2xl font-semibold text-gray-900 dark:text-white">
+                  {{ statistics.highRisk }}
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -91,14 +99,14 @@
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <!-- Trend Chart -->
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 h-96">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 h-[400px]">
           <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Risk Score Trend</h2>
-          <div class="h-full">
+          <div class="h-[calc(100%-2rem)]">
             <Line :data="trendChartData" :options="trendChartOptions" />
           </div>
         </div>
         <!-- Distribution Chart -->
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 h-96">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 h-[400px]">
           <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
             Risk Distribution
           </h2>

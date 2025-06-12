@@ -1,13 +1,12 @@
-import axios from 'axios'
+import axiosInstance from '../services/AxiosService'
 
 export class AuthModel {
   constructor() {
-    this.baseURL = 'https://sweetaware-production.up.railway.app'
+    this.baseURL = 'https://sweetaware.up.railway.app/'
   }
-
   async login(credentials) {
     try {
-      const response = await axios.post(`${this.baseURL}/api/auth/login`, credentials)
+      const response = await axiosInstance.post('/api/auth/login', credentials)
 
       if (response.data.status === 'success') {
         // Store the token
@@ -36,21 +35,9 @@ export class AuthModel {
       throw error.response?.data || error
     }
   }
-
   async refreshToken() {
     try {
-      const token = localStorage.getItem('token')
-      if (!token) throw new Error('No token found')
-
-      const response = await axios.post(
-        `${this.baseURL}/api/auth/refresh-token`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      )
+      const response = await axiosInstance.post('/api/auth/refresh-token')
 
       if (response.data.status === 'success') {
         localStorage.setItem('token', response.data.data.token)
@@ -65,14 +52,7 @@ export class AuthModel {
 
   async getProfile() {
     try {
-      const token = localStorage.getItem('token')
-      if (!token) throw new Error('No token found')
-
-      const response = await axios.get(`${this.baseURL}/api/auth/profile`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      const response = await axiosInstance.get('/api/auth/profile')
 
       if (response.data.status === 'success') {
         return response.data.data.user
@@ -80,7 +60,13 @@ export class AuthModel {
 
       throw new Error(response.data.message)
     } catch (error) {
-      throw error.response?.data || error.message
+      if (error.response?.status === 401) {
+        // Handle unauthorized access - token might be expired
+        localStorage.removeItem('token')
+        localStorage.removeItem('user')
+        throw new Error('Session expired. Please login again.')
+      }
+      throw error.response?.data?.message || error.message || 'Failed to load profile'
     }
   }
 
