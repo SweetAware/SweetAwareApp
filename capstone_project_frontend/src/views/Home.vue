@@ -49,7 +49,7 @@
               Diagnose Now
             </router-link>
             <router-link
-              to="/learn-more"
+              to="/about"
               class="inline-flex items-center px-8 py-4 rounded-md text-lg text-gray-700 bg-white hover:bg-gray-50 transition-colors duration-200"
             >
               Learn More
@@ -459,7 +459,7 @@
       <!-- Learn More Button -->
       <div class="flex justify-center mt-12">
         <router-link
-          to="/learn-more"
+          to="/education"
           class="inline-flex items-center px-8 py-4 rounded-full text-white text-lg bg-purple-600 hover:bg-purple-700 transition-all duration-200 transform hover:scale-105 shadow-lg"
         >
           Learn More About Diabetes <i class="fas fa-arrow-right ml-2"></i>

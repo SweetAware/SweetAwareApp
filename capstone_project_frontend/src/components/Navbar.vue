@@ -15,22 +15,22 @@
             >Home</router-link
           >
           <router-link
-            to="/tentang"
+            to="/about"
             class="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
             >About</router-link
           >
           <router-link
-            to="/edukasi"
+            to="/education"
             class="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
             >Education</router-link
           >
           <router-link
-            to="/artikel"
+            to="/articles"
             class="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
-            >Articel</router-link
+            >Articles</router-link
           >
           <router-link
-            to="/kontak"
+            to="/contact"
             class="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400"
             >Contact</router-link
           >

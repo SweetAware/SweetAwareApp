@@ -1,46 +1,81 @@
 // Service Worker for SweetAware
-const SW_VERSION = '1.0.0'
-const CACHE_NAME = `sweetaware-cache-${SW_VERSION}`
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/7.0.0/workbox-sw.js')
 
-// Cache app shell files
-const appShellFiles = [
-  '/',
-  '/index.html',
-  '/src/assets/images/logo.png',
-  '/src/assets/icons/low-risk.svg',
-  '/src/assets/icons/moderate-risk.svg',
-  '/src/assets/icons/high-risk.svg',
-]
+const { registerRoute } = workbox.routing
+const { CacheFirst, NetworkFirst, StaleWhileRevalidate } = workbox.strategies
+const { CacheableResponsePlugin } = workbox.cacheableResponse
+const { ExpirationPlugin } = workbox.expiration
+const { precacheAndRoute } = workbox.precaching
 
-self.addEventListener('install', (event) => {
-  console.log('[Service Worker] Installing...')
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      console.log('[Service Worker] Caching app shell...')
-      return cache.addAll(appShellFiles)
-    }),
-  )
-  // Ensure new service worker activates immediately
-  self.skipWaiting()
-})
+// Precache all assets listed in manifest
+precacheAndRoute(self.__WB_MANIFEST || [])
 
-self.addEventListener('activate', (event) => {
-  console.log('[Service Worker] Activating...')
-  event.waitUntil(
-    caches.keys().then((keyList) => {
-      return Promise.all(
-        keyList.map((key) => {
-          if (key !== CACHE_NAME) {
-            console.log('[Service Worker] Removing old cache:', key)
-            return caches.delete(key)
-          }
-        }),
-      )
-    }),
-  )
-  // Take control of all pages immediately
-  return self.clients.claim()
-})
+// Cache page navigations (HTML)
+registerRoute(
+  ({ request }) => request.mode === 'navigate',
+  new NetworkFirst({
+    cacheName: 'pages-cache',
+    plugins: [
+      new CacheableResponsePlugin({
+        statuses: [200],
+      }),
+    ],
+  }),
+)
+
+// Cache CSS, JS, and Web Worker files
+registerRoute(
+  ({ request }) =>
+    request.destination === 'style' ||
+    request.destination === 'script' ||
+    request.destination === 'worker',
+  new StaleWhileRevalidate({
+    cacheName: 'assets-cache',
+    plugins: [
+      new CacheableResponsePlugin({
+        statuses: [200],
+      }),
+      new ExpirationPlugin({
+        maxEntries: 60,
+        maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
+      }),
+    ],
+  }),
+)
+
+// Cache images
+registerRoute(
+  ({ request }) => request.destination === 'image',
+  new CacheFirst({
+    cacheName: 'images-cache',
+    plugins: [
+      new CacheableResponsePlugin({
+        statuses: [200],
+      }),
+      new ExpirationPlugin({
+        maxEntries: 60,
+        maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
+      }),
+    ],
+  }),
+)
+
+// Cache API requests
+registerRoute(
+  ({ url }) => url.pathname.startsWith('/api/'),
+  new NetworkFirst({
+    cacheName: 'api-cache',
+    plugins: [
+      new CacheableResponsePlugin({
+        statuses: [200],
+      }),
+      new ExpirationPlugin({
+        maxEntries: 60,
+        maxAgeSeconds: 12 * 60 * 60, // 12 hours
+      }),
+    ],
+  }),
+)
 
 self.addEventListener('push', (event) => {
   console.log('[Service Worker] Push received:', event)
@@ -98,23 +133,19 @@ self.addEventListener('notificationclick', (event) => {
   )
 })
 
-// Handle fetch events - network first, falling back to cache
-self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    fetch(event.request)
-      .then((response) => {
-        // If the response was good, clone it and store it in the cache
-        if (response.status === 200) {
-          const responseClone = response.clone()
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, responseClone)
-          })
-        }
-        return response
-      })
-      .catch(() => {
-        // If the network request failed, try to get it from the cache
-        return caches.match(event.request)
+// Cache additional external resources
+registerRoute(
+  ({ url }) => url.origin === 'https://cdnjs.cloudflare.com',
+  new CacheFirst({
+    cacheName: 'cdn-cache',
+    plugins: [
+      new CacheableResponsePlugin({
+        statuses: [200],
       }),
-  )
-})
+      new ExpirationPlugin({
+        maxEntries: 30,
+        maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
+      }),
+    ],
+  }),
+)

@@ -43,22 +43,22 @@ const routes = [
     component: Profile,
   },
   {
-    path: '/artikel',
+    path: '/articles',
     name: 'Articles',
     component: Articles,
   },
   {
-    path: '/tentang',
+    path: '/about',
     name: 'About',
     component: About,
   },
   {
-    path: '/edukasi',
+    path: '/education',
     name: 'Education',
     component: Education,
   },
   {
-    path: '/kontak',
+    path: '/contact',
     name: 'Contact',
     component: Contact,
   },

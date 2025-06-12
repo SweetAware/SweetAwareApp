@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="192" height="192" viewBox="0 0 192 192" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Background circle -->
+    <circle cx="96" cy="96" r="88" fill="#4285f4"/>
+    
+    <!-- Stylized "S" for SweetAware -->
+    <path d="M96 45C70 45 55 60 55 75C55 90 70 95 96 100C122 105 137 110 137 125C137 140 122 155 96 155C70 155 55 140 55 125" 
+          stroke="white" 
+          stroke-width="12" 
+          stroke-linecap="round"
+          fill="none"/>
+    
+    <!-- Health cross symbol -->
+    <path d="M85 70H107V82H119V104H107V116H85V104H73V82H85V70Z" 
+          fill="white"/>
+</svg>
