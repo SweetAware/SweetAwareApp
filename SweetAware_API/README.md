@@ -33,10 +33,11 @@ The API follows a structured architecture:
         └── auth.js      # Authentication utilities
 ```
 
-## API Endpoints
+## API Documentation
 
 https://sweetaware-api.netlify.app
 
+<<<<<<< workplace
 ### Authentication
 
 1. **Register a new user**
@@ -341,6 +342,8 @@ The system provides various food categories including:
 - Spices and herbs beneficial for blood glucose control
 - Healthy food pairings for stable blood glucose
 
+=======
+>>>>>>> main
 ## Future Enhancements
 
 1. Add real machine learning model integration for predictions
