@@ -520,6 +520,8 @@
                       'w-10 h-10 rounded-full flex items-center justify-center': true,
                       'bg-red-100 text-red-600 dark:bg-red-900 dark:text-red-200':
                         prediction.result.prediction === 'High Risk',
+                      'bg-yellow-100 text-yellow-600 dark:bg-yellow-900 dark:text-yellow-200':
+                        prediction.result.prediction === 'Moderate Risk',
                       'bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-200':
                         prediction.result.prediction === 'Low Risk',
                     }"
@@ -528,6 +530,7 @@
                       :class="{
                         fas: true,
                         'fa-triangle-exclamation': prediction.result.prediction === 'High Risk',
+                        'fa-exclamation-circle': prediction.result.prediction === 'Moderate Risk',
                         'fa-check': prediction.result.prediction === 'Low Risk',
                       }"
                     ></i>
@@ -659,6 +662,7 @@ export default defineComponent({
         const authModel = new AuthModel()
         const userData = await authModel.getProfile()
 
+        // Set user data
         this.username = userData.username
         this.email = userData.email
         this.form.username = userData.username
@@ -684,8 +688,31 @@ export default defineComponent({
 
         this.error = null
       } catch (error) {
-        this.error = 'Failed to load profile. Please try again.'
-        console.error('Error loading profile:', error)
+        if (error.message === 'Session expired. Please login again.') {
+          // Redirect to login page if session expired
+          this.$router.push('/login')
+
+          await Swal.fire({
+            icon: 'error',
+            title: 'Session Expired',
+            text: 'Please login again to continue.',
+          })
+        } else {
+          this.error = error.message || 'Failed to load profile. Please try again.'
+          console.error('Error loading profile:', error)
+
+          await Swal.fire({
+            icon: 'error',
+            title: 'Error Loading Profile',
+            text: this.error,
+            showConfirmButton: true,
+            confirmButtonText: 'Retry',
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.loadProfile() // Retry loading profile
+            }
+          })
+        }
       } finally {
         this.loading = false
       }

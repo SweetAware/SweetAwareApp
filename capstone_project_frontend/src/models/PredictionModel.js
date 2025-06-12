@@ -1,20 +1,13 @@
-import axios from 'axios'
+import axiosInstance from '../services/AxiosService'
 
 export class PredictionModel {
   constructor() {
-    this.baseURL = 'https://sweetaware-production.up.railway.app'
+    this.baseURL = 'https://sweetaware.up.railway.app/'
   }
 
   async createPrediction(predictionData) {
     try {
-      const token = localStorage.getItem('token')
-      if (!token) throw new Error('No token found')
-
-      const response = await axios.post(`${this.baseURL}/api/predictions`, predictionData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      const response = await axiosInstance.post('/api/predictions', predictionData)
 
       if (response.data.status === 'success') {
         return response.data.data
@@ -28,13 +21,7 @@ export class PredictionModel {
 
   async getPredictionHistory(page = 1, limit = 10) {
     try {
-      const token = localStorage.getItem('token')
-      if (!token) throw new Error('No token found')
-
-      const response = await axios.get(`${this.baseURL}/api/predictions`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+      const response = await axiosInstance.get('/api/predictions', {
         params: {
           page,
           limit: 1000, // Get all predictions at once
@@ -53,14 +40,7 @@ export class PredictionModel {
 
   async getPredictionById(id) {
     try {
-      const token = localStorage.getItem('token')
-      if (!token) throw new Error('No token found')
-
-      const response = await axios.get(`${this.baseURL}/api/predictions/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      const response = await axiosInstance.get(`/api/predictions/${id}`)
 
       if (response.data.status === 'success') {
         return response.data.data.prediction
@@ -74,14 +54,7 @@ export class PredictionModel {
 
   async deletePrediction(id) {
     try {
-      const token = localStorage.getItem('token')
-      if (!token) throw new Error('No token found')
-
-      const response = await axios.delete(`${this.baseURL}/api/predictions/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      const response = await axiosInstance.delete(`/api/predictions/${id}`)
 
       if (response.data.status === 'success') {
         return true
