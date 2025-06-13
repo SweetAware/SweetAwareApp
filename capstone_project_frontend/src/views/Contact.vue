@@ -6,7 +6,7 @@
   >
     <!-- Hero Section -->
     <div class="container mx-auto px-4 py-16 pt-28">
-      <div class="text-center mb-12">
+      <div class="text-center mb-12" data-aos="fade-down">
         <h1 class="text-4xl md:text-5xl font-bold text-gray-800 dark:text-white mb-4">
           Hubungi <span class="text-blue-600">SweetAware</span>
         </h1>
@@ -22,6 +22,8 @@
         <!-- Quick Contact Card -->
         <div
           class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 transform hover:-translate-y-1 transition duration-300"
+          data-aos="fade-right"
+          data-aos-delay="100"
         >
           <div class="text-center mb-6">
             <div
@@ -42,6 +44,8 @@
         <!-- Email Card -->
         <div
           class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 transform hover:-translate-y-1 transition duration-300"
+          data-aos="fade-up"
+          data-aos-delay="200"
         >
           <div class="text-center mb-6">
             <div
@@ -62,6 +66,8 @@
         <!-- Live Chat Card -->
         <div
           class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 transform hover:-translate-y-1 transition duration-300"
+          data-aos="fade-left"
+          data-aos-delay="300"
         >
           <div class="text-center mb-6">
             <div
@@ -83,10 +89,14 @@
     </div>
     <!-- Contact Form Section -->
     <div class="container mx-auto px-4 mb-16">
-      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
+      <div
+        class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8"
+        data-aos="zoom-in"
+        data-aos-delay="400"
+      >
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
           <!-- Form -->
-          <div>
+          <div data-aos="fade-right" data-aos-delay="500">
             <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">Kirim Pesan</h2>
             <form @submit.prevent="submitForm" class="space-y-4">
               <div>
@@ -134,7 +144,7 @@
             </form>
           </div>
           <!-- Map and Info -->
-          <div>
+          <div data-aos="fade-left" data-aos-delay="500">
             <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">Lokasi Kami</h2>
             <!-- Fake Map Container -->
             <div class="bg-gray-200 dark:bg-gray-700 rounded-lg h-64 mb-6 relative overflow-hidden">

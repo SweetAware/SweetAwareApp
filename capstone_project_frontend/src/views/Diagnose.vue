@@ -1,10 +1,12 @@
 <template>
   <div class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
-    <!-- Sidebar -->
-    <Sidebar />
+    <!-- Sidebar - Hidden on mobile -->
+    <div class="hidden md:block">
+      <Sidebar />
+    </div>
 
     <!-- Main Content -->
-    <div class="ml-64">
+    <div class="ml-0 md:ml-64">
       <div class="pt-16">
         <div class="p-8 space-y-8 mb-20">
           <!-- Form Container -->
@@ -442,9 +444,8 @@
         </div>
       </div>
     </div>
-
     <!-- Footer -->
-    <div class="ml-64">
+    <div class="ml-0 md:ml-64">
       <Footer />
     </div>
   </div>

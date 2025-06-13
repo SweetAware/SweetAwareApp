@@ -4,7 +4,7 @@
   <div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-12">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Hero Section -->
-      <div class="text-center mb-16 pt-12">
+      <div class="text-center mb-16 pt-12" data-aos="fade-down">
         <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">About SweetAware</h1>
         <p class="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
           Empowering individuals to take control of their health through advanced diabetes risk
@@ -14,7 +14,11 @@
 
       <!-- Mission & Vision Section -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
+        <div
+          class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8"
+          data-aos="fade-right"
+          data-aos-delay="100"
+        >
           <div class="flex items-center mb-4">
             <i class="fas fa-bullseye text-2xl text-purple-600 mr-4"></i>
             <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Our Mission</h2>
@@ -25,7 +29,11 @@
             complications arise.
           </p>
         </div>
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
+        <div
+          class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8"
+          data-aos="fade-left"
+          data-aos-delay="200"
+        >
           <div class="flex items-center mb-4">
             <i class="fas fa-eye text-2xl text-purple-600 mr-4"></i>
             <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Our Vision</h2>
@@ -39,11 +47,18 @@
 
       <!-- Key Features Section -->
       <div class="mb-16">
-        <h2 class="text-3xl font-bold text-gray-900 dark:text-white text-center mb-8">
+        <h2
+          class="text-3xl font-bold text-gray-900 dark:text-white text-center mb-8"
+          data-aos="fade-up"
+        >
           Key Features
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+          <div
+            class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6"
+            data-aos="zoom-in"
+            data-aos-delay="100"
+          >
             <div
               class="flex items-center justify-center h-12 w-12 rounded-md bg-purple-600 text-white mx-auto mb-4"
             >
@@ -57,7 +72,11 @@
               diabetes risk assessments.
             </p>
           </div>
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+          <div
+            class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6"
+            data-aos="zoom-in"
+            data-aos-delay="200"
+          >
             <div
               class="flex items-center justify-center h-12 w-12 rounded-md bg-purple-600 text-white mx-auto mb-4"
             >
@@ -71,7 +90,11 @@
               outcomes.
             </p>
           </div>
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+          <div
+            class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6"
+            data-aos="zoom-in"
+            data-aos-delay="300"
+          >
             <div
               class="flex items-center justify-center h-12 w-12 rounded-md bg-purple-600 text-white mx-auto mb-4"
             >
@@ -89,7 +112,11 @@
       </div>
 
       <!-- Statistics Section -->
-      <div class="bg-purple-600 rounded-lg shadow-lg p-8 mb-16">
+      <div
+        class="bg-purple-600 rounded-lg shadow-lg p-8 mb-16"
+        data-aos="fade-up"
+        data-aos-duration="1200"
+      >
         <h2 class="text-3xl font-bold text-white text-center mb-8">Diabetes Statistics</h2>
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div class="text-center">
@@ -115,7 +142,11 @@
       <div class="mb-16">
         <h2 class="text-3xl font-bold text-gray-900 dark:text-white text-center mb-8">Our Team</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 text-center">
+          <div
+            class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 text-center"
+            data-aos="fade-up"
+            data-aos-delay="100"
+          >
             <img
               src="/src/assets/images/profile.jpg"
               alt="Team Member"
@@ -127,7 +158,11 @@
               Specialist in diabetes care with 15 years of experience
             </p>
           </div>
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 text-center">
+          <div
+            class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 text-center"
+            data-aos="fade-up"
+            data-aos-delay="200"
+          >
             <img
               src="/src/assets/images/profile.jpg"
               alt="Team Member"
@@ -139,7 +174,11 @@
               AI specialist with expertise in healthcare technology
             </p>
           </div>
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 text-center">
+          <div
+            class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 text-center"
+            data-aos="fade-up"
+            data-aos-delay="300"
+          >
             <img
               src="/src/assets/images/profile.jpg"
               alt="Team Member"

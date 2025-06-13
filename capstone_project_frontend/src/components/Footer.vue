@@ -48,7 +48,7 @@
     <div class="max-w-7xl mx-auto px-4 pt-0 pb-12 grid grid-cols-1 md:grid-cols-4 gap-12">
       <!-- Logo and Description -->
       <div class="col-span-1">
-        <img src="@/assets/images/logo.png" alt="SweetAware Logo" class="h-12 mb-4" />
+        <img src="@/assets/images/logo_footer.png" alt="SweetAware Logo" class="h-12 mb-4" />
         <p class="text-gray-400 mb-6">
           Your trusted companion in diabetes awareness and prevention. We make health monitoring
           accessible, easy, and informative for everyone.

@@ -22,7 +22,7 @@ export class AuthModel {
   }
   async register(credentials) {
     try {
-      const response = await axios.post(`${this.baseURL}/api/auth/register`, credentials)
+      const response = await axiosInstance.post('/api/auth/register', credentials)
 
       if (response.data.status === 'success') {
         // Store user data after successful registration and auto-login
@@ -32,7 +32,7 @@ export class AuthModel {
 
       throw new Error(response.data.message)
     } catch (error) {
-      throw error.response?.data || error
+      throw error.response?.data || error.message
     }
   }
   async refreshToken() {

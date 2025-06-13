@@ -7,14 +7,19 @@
     >
       <div class="text-center">
         <img
-          class="mx-auto h-20 w-auto transform hover:rotate-6 transition-transform duration-300"
-          src="@/assets/images/logo.png"
+          class="mx-auto h-20 w-auto transform hover:rotate-6 transition-transform duration-300 block dark:hidden"
+          src="@/assets/images/logo_nav.png"
           alt="Sweet Aware Logo"
         />
-        <h2 class="mt-8 text-center text-3xl font-extrabold text-gray-900">
+        <img
+          class="mx-auto h-20 w-auto transform hover:rotate-6 transition-transform duration-300 hidden dark:block"
+          src="@/assets/images/logo_footer.png"
+          alt="Sweet Aware Logo"
+        />
+        <h2 class="mt-8 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
           Create your account ✨
         </h2>
-        <p class="mt-4 text-center text-sm text-gray-600">
+        <p class="mt-4 text-center text-sm text-gray-600 dark:text-white">
           Already have an account?
           <router-link
             to="/login"
@@ -40,7 +45,9 @@
         <div class="space-y-6">
           <!-- Username Input -->
           <div>
-            <label for="username" class="block text-sm font-medium text-gray-700 mb-2"
+            <label
+              for="username"
+              class="block text-sm font-medium text-gray-700 dark:text-white mb-2"
               >Username</label
             >
             <div class="relative">
@@ -62,7 +69,7 @@
 
           <!-- Email Input -->
           <div>
-            <label for="email" class="block text-sm font-medium text-gray-700 mb-2"
+            <label for="email" class="block text-sm font-medium text-gray-700 dark:text-white mb-2"
               >Email address</label
             >
             <div class="relative">
@@ -84,7 +91,9 @@
 
           <!-- Password Input -->
           <div>
-            <label for="password" class="block text-sm font-medium text-gray-700 mb-2"
+            <label
+              for="password"
+              class="block text-sm font-medium text-gray-700 dark:text-white mb-2"
               >Password</label
             >
             <div class="relative">
@@ -119,7 +128,9 @@
 
           <!-- Confirm Password Input -->
           <div>
-            <label for="confirm-password" class="block text-sm font-medium text-gray-700 mb-2"
+            <label
+              for="confirm-password"
+              class="block text-sm font-medium text-gray-700 dark:text-white mb-2"
               >Confirm password</label
             >
             <div class="relative">
@@ -162,7 +173,7 @@
             required
             class="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded transition duration-150 ease-in-out"
           />
-          <label for="agree-terms" class="ml-2 block text-sm text-gray-700">
+          <label for="agree-terms" class="ml-2 block text-sm text-gray-700 dark:text-white">
             I agree to the
             <a href="#" class="text-purple-600 hover:text-purple-500 hover:underline"
               >Terms of Service</a
