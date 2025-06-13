@@ -4,7 +4,7 @@
   <div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-12">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Hero Section -->
-      <div class="text-center mb-16 pt-12">
+      <div class="text-center mb-16 pt-12" data-aos="fade-down">
         <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
           Diabetes Education Center
         </h1>
@@ -14,12 +14,18 @@
       </div>
 
       <!-- Quick Links Section -->
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+      <div
+        class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12"
+        data-aos="fade-up"
+        data-aos-delay="100"
+      >
         <button
           v-for="(section, index) in quickLinks"
           :key="index"
           @click="scrollToSection(section.id)"
           class="p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-all flex items-center justify-center space-x-2 border-2 hover:border-purple-500"
+          :data-aos="'fade-right'"
+          :data-aos-delay="100 * (index + 1)"
         >
           <i :class="section.icon + ' text-purple-600'"></i>
           <span class="font-medium text-gray-900 dark:text-white">{{ section.title }}</span>
@@ -28,12 +34,16 @@
 
       <!-- Learning Modules Section -->
       <div id="learning-modules" class="mb-16">
-        <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">Learning Modules</h2>
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-8" data-aos="fade-up">
+          Learning Modules
+        </h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div
             v-for="(module, index) in learningModules"
             :key="index"
             class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden"
+            :data-aos="'zoom-in'"
+            :data-aos-delay="100 * (index + 1)"
           >
             <div class="h-48 bg-purple-100 dark:bg-purple-900 flex items-center justify-center">
               <i :class="module.icon + ' text-6xl text-purple-600 dark:text-purple-400'"></i>
@@ -58,9 +68,15 @@
 
       <!-- Interactive Tools Section -->
       <div id="interactive-tools" class="mb-16">
-        <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">Interactive Tools</h2>
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-8" data-aos="fade-up">
+          Interactive Tools
+        </h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+          <div
+            class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6"
+            data-aos="fade-right"
+            data-aos-delay="100"
+          >
             <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">
               Carbohydrate Counter
             </h3>
@@ -89,7 +105,11 @@
             </div>
           </div>
 
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+          <div
+            class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6"
+            data-aos="fade-left"
+            data-aos-delay="200"
+          >
             <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">
               Blood Sugar Log
             </h3>

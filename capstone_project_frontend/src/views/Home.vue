@@ -2,55 +2,68 @@
   <div class="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
     <!-- Hero Section -->
     <div class="max-w-[98%] mx-auto pt-24">
-      <div class="relative rounded-[40px] overflow-hidden min-h-[700px] shadow-xl">
+      <div
+        class="relative rounded-[40px] overflow-hidden min-h-[500px] md:min-h-[600px] lg:min-h-[700px] shadow-xl"
+        data-aos="fade-up"
+      >
         <!-- Background Image Container -->
-        <div
-          class="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          :style="{ backgroundImage: `url(${heroImage})`, transform: 'scale(1.1)' }"
-        >
+        <div class="absolute inset-0">
+          <img
+            :src="heroImage"
+            alt="Hero Background"
+            class="w-full h-full object-cover object-center transform scale-110"
+          />
           <!-- Gradient Overlay -->
           <div class="absolute inset-0 bg-gradient-to-r from-[#E2DAF1]/60 to-transparent"></div>
         </div>
 
         <!-- Heart Icon -->
-        <div class="absolute top-4 right-4 z-10">
+        <div class="absolute top-4 right-4 z-10" data-aos="fade-left" data-aos-delay="300">
           <i class="fas fa-heart text-purple-600"></i>
         </div>
         <!-- Content -->
-        <div class="relative z-10 p-12 lg:p-20 max-w-3xl ml-8 lg:ml-16">
-          <div>
+        <div class="relative z-10 p-6 md:p-12 lg:p-20 max-w-3xl mx-4 md:ml-8 lg:ml-16">
+          <div data-aos="fade-right" data-aos-delay="200">
             <span
-              class="inline-block px-6 py-3 rounded-full bg-white text-purple-600 font-medium text-lg"
+              class="inline-block px-4 md:px-6 py-2 md:py-3 rounded-full bg-white text-purple-600 font-medium text-base md:text-lg"
             >
               SweetAware Health Platform
             </span>
           </div>
-          <div class="mt-12">
-            <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold text-gray-900 leading-tight">
+          <div class="mt-8 md:mt-12" data-aos="fade-up" data-aos-delay="400">
+            <h1 class="text-3xl md:text-5xl lg:text-7xl font-bold text-gray-900 leading-tight">
               Know your health<br />condition
             </h1>
-            <div class="mt-6">
-              <span class="text-4xl text-purple-600 font-semibold inline"
+            <div class="mt-4 md:mt-6">
+              <span class="text-2xl md:text-4xl text-purple-600 font-semibold inline"
                 >in just a few clicks
               </span>
-              <span class="text-4xl text-gray-900 inline">— easy, fast and free.</span>
+              <span class="text-2xl md:text-4xl text-gray-900 inline">— easy, fast and free.</span>
             </div>
           </div>
-          <p class="mt-8 text-xl text-gray-600 max-w-2xl">
+          <p
+            class="mt-6 md:mt-8 text-base md:text-xl text-gray-600 max-w-2xl"
+            data-aos="fade-up"
+            data-aos-delay="600"
+          >
             Early detection is crucial for managing diabetes. Take control of your health today with
             our AI-powered platform.
           </p>
-          <div class="mt-12 flex gap-6">
+          <div
+            class="mt-8 md:mt-12 flex flex-col sm:flex-row gap-4 md:gap-6"
+            data-aos="fade-up"
+            data-aos-delay="800"
+          >
             <router-link
               to="/diagnose"
-              class="inline-flex items-center px-8 py-4 rounded-md text-white text-lg bg-purple-600 hover:bg-purple-700 transition-colors duration-200"
+              class="inline-flex items-center justify-center px-6 md:px-8 py-3 md:py-4 rounded-md text-white text-base md:text-lg bg-purple-600 hover:bg-purple-700 transition-colors duration-200"
             >
               <i class="fas fa-flask-vial mr-3 text-lg"></i>
               Diagnose Now
             </router-link>
             <router-link
               to="/about"
-              class="inline-flex items-center px-8 py-4 rounded-md text-lg text-gray-700 bg-white hover:bg-gray-50 transition-colors duration-200"
+              class="inline-flex items-center justify-center px-6 md:px-8 py-3 md:py-4 rounded-md text-base md:text-lg text-gray-700 bg-white hover:bg-gray-50 transition-colors duration-200"
             >
               Learn More
             </router-link>
@@ -58,7 +71,11 @@
         </div>
 
         <!-- Science Icon -->
-        <div class="absolute bottom-8 right-8 bg-white p-3 rounded-lg shadow-lg z-10">
+        <div
+          class="absolute bottom-8 right-8 bg-white p-3 rounded-lg shadow-lg z-10"
+          data-aos="fade-up"
+          data-aos-delay="1000"
+        >
           <i class="fas fa-flask text-purple-600"></i>
         </div>
       </div>
@@ -66,22 +83,34 @@
     <!-- Technology Section -->
     <div class="py-20 px-2 max-w-[98%] mx-auto">
       <!-- Innovation Label -->
-      <div class="text-center mb-8">
+      <div class="text-center mb-8" data-aos="fade-down">
         <span class="px-4 py-2 rounded-full bg-purple-100 text-purple-600 text-sm font-medium">
           Innovation
         </span>
       </div>
       <!-- Section Title -->
-      <h2 class="text-4xl font-bold text-center text-gray-900 dark:text-white mb-4">
+      <h2
+        class="text-4xl font-bold text-center text-gray-900 dark:text-white mb-4"
+        data-aos="fade-up"
+        data-aos-delay="200"
+      >
         Powered by Advanced Technology
       </h2>
-      <p class="text-gray-600 dark:text-gray-300 text-center mb-16 max-w-2xl mx-auto">
+      <p
+        class="text-gray-600 dark:text-gray-300 text-center mb-16 max-w-2xl mx-auto"
+        data-aos="fade-up"
+        data-aos-delay="400"
+      >
         Our platform combines cutting-edge technologies to provide the most accurate and reliable
         health assessments
       </p>
 
       <!-- Technology Stack Image -->
-      <div class="technology-stack-container overflow-hidden mb-20">
+      <div
+        class="technology-stack-container overflow-hidden mb-20"
+        data-aos="zoom-in"
+        data-aos-delay="600"
+      >
         <div class="technology-stack-wrapper">
           <div class="technology-stack-animation">
             <img
@@ -102,7 +131,7 @@
       <!-- Features Grid -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <!-- AI Processing -->
-        <div class="text-center p-6">
+        <div class="text-center p-6" data-aos="fade-up" data-aos-delay="200">
           <div
             class="w-16 h-16 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center mx-auto mb-4"
           >
@@ -118,7 +147,7 @@
         </div>
 
         <!-- Secure Database -->
-        <div class="text-center p-6">
+        <div class="text-center p-6" data-aos="fade-up" data-aos-delay="400">
           <div
             class="w-16 h-16 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center mx-auto mb-4"
           >
@@ -134,7 +163,7 @@
         </div>
 
         <!-- Real-time Analysis -->
-        <div class="text-center p-6">
+        <div class="text-center p-6" data-aos="fade-up" data-aos-delay="600">
           <div
             class="w-16 h-16 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center mx-auto mb-4"
           >
@@ -190,7 +219,7 @@
             class="absolute left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-purple-200 dark:bg-purple-800"
           ></div>
           <!-- Step 1: Fill the Form -->
-          <div class="relative flex items-center mb-32">
+          <div class="relative flex items-center mb-32" data-aos="fade-up" data-aos-delay="200">
             <div class="w-1/2 pr-8 text-right">
               <div class="text-6xl font-bold text-purple-300 dark:text-purple-700 mb-2">01</div>
               <h3 class="text-3xl font-semibold text-gray-900 dark:text-white mb-3">
@@ -214,7 +243,7 @@
           </div>
 
           <!-- Step 2: Get the Result -->
-          <div class="relative flex items-center mb-32">
+          <div class="relative flex items-center mb-32" data-aos="fade-up" data-aos-delay="400">
             <div class="w-1/2 pr-8">
               <img
                 src="@/assets/images/how-to-02.png"
@@ -239,7 +268,7 @@
           </div>
 
           <!-- Step 3: Prediction History -->
-          <div class="relative flex items-center">
+          <div class="relative flex items-center" data-aos="fade-up" data-aos-delay="600">
             <div class="w-1/2 pr-8 text-right">
               <div class="text-6xl font-bold text-purple-300 dark:text-purple-700 mb-2">03</div>
               <h3 class="text-3xl font-semibold text-gray-900 dark:text-white mb-3">
@@ -297,6 +326,8 @@
         <!-- Early Detection -->
         <div
           class="bg-white dark:bg-gray-900 p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow"
+          data-aos="fade-up"
+          data-aos-delay="200"
         >
           <div
             class="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center mb-6"
@@ -314,6 +345,8 @@
         <!-- Free & Convenient -->
         <div
           class="bg-white dark:bg-gray-900 p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow"
+          data-aos="fade-up"
+          data-aos-delay="400"
         >
           <div
             class="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center mb-6"
@@ -333,6 +366,8 @@
         <!-- Health Tracking -->
         <div
           class="bg-white dark:bg-gray-900 p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow"
+          data-aos="fade-up"
+          data-aos-delay="600"
         >
           <div
             class="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center mb-6"

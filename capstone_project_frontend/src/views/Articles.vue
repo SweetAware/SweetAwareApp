@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
     <div class="container mx-auto px-4 py-8 pt-28">
       <!-- Hero Section -->
-      <div class="text-center mb-12">
+      <div class="text-center mb-12" data-aos="fade-down">
         <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
           Artikel Diabetes & Kesehatan
         </h1>
@@ -13,7 +13,11 @@
       </div>
 
       <!-- Search and Filter Section -->
-      <div class="mb-8 bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+      <div
+        class="mb-8 bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6"
+        data-aos="fade-up"
+        data-aos-delay="100"
+      >
         <div class="flex flex-col lg:flex-row gap-6">
           <!-- Search Bar -->
           <div class="relative flex-1">
@@ -52,6 +56,7 @@
       <div
         v-if="error"
         class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-xl mb-4"
+        data-aos="fade-in"
         role="alert"
       >
         <div class="flex items-center">
@@ -61,7 +66,7 @@
       </div>
 
       <!-- Loading State -->
-      <div v-if="loading" class="flex justify-center items-center min-h-[400px]">
+      <div v-if="loading" class="flex justify-center items-center min-h-[400px]" data-aos="fade">
         <div class="flex flex-col items-center gap-4">
           <div
             class="animate-spin rounded-full h-12 w-12 border-4 border-purple-500 border-t-transparent"
@@ -72,9 +77,11 @@
       <!-- Articles Grid -->
       <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div
-          v-for="article in filteredArticles"
+          v-for="(article, index) in filteredArticles"
           :key="article.url"
           class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden transform hover:-translate-y-1"
+          :data-aos="'zoom-in'"
+          :data-aos-delay="100 * (index % 3)"
         >
           <!-- Article Image Container -->
           <div class="relative overflow-hidden">

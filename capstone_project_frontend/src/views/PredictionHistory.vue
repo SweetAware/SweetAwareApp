@@ -1,14 +1,16 @@
 <template>
   <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
-    <!-- Sidebar -->
-    <Sidebar />
+    <!-- Sidebar - Hidden on mobile -->
+    <div class="hidden md:block">
+      <Sidebar />
+    </div>
 
     <!-- Main Content -->
-    <div class="ml-64">
+    <div class="ml-0 md:ml-64">
       <div class="pt-16">
         <!-- Prediction History Container -->
-        <div class="p-4 max-w-[95%] mx-auto">
-          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-10 mb-20">
+        <div class="p-2 md:p-4 max-w-full md:max-w-[95%] mx-auto">
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 md:p-10 mb-20">
             <div class="flex justify-between items-center mb-8">
               <h1 class="text-2xl font-bold dark:text-white">Prediction History</h1>
               <button
@@ -22,7 +24,7 @@
             </div>
 
             <!-- Statistics Cards -->
-            <div class="grid grid-cols-3 gap-6 mb-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-8">
               <!-- Total Predictions -->
               <div class="bg-blue-50 dark:bg-blue-900 p-6 rounded-lg">
                 <div class="flex justify-between items-start">
@@ -88,117 +90,130 @@
             </div>
 
             <!-- Prediction Table -->
-            <div class="overflow-x-auto">
-              <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                <thead>
-                  <tr>
-                    <th
-                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
-                    >
-                      Date
-                    </th>
-                    <th
-                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
-                    >
-                      Age
-                    </th>
-                    <th
-                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
-                    >
-                      Gender
-                    </th>
-                    <th
-                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
-                    >
-                      Risk Level
-                    </th>
-                    <th
-                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
-                    >
-                      Risk Score
-                    </th>
-                    <th
-                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
-                    >
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody
-                  class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700"
-                >
-                  <tr v-if="loading">
-                    <td colspan="6" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
-                      Loading predictions...
-                    </td>
-                  </tr>
-                  <tr v-else-if="loading">
-                    <td colspan="6" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
-                      <i class="fas fa-circle-notch fa-spin mr-2"></i>
-                      Loading predictions...
-                    </td>
-                  </tr>
-                  <tr v-else-if="filteredPredictions.length === 0">
-                    <td colspan="6" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
-                      No prediction history found.
-                    </td>
-                  </tr>
-                  <tr
-                    v-for="prediction in paginatedPredictions"
-                    :key="prediction._id"
-                    class="dark:hover:bg-gray-700"
+            <div class="-mx-4 sm:mx-0 overflow-x-auto">
+              <div class="inline-block min-w-full align-middle">
+                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                  <thead>
+                    <tr>
+                      <th
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                      >
+                        Date
+                      </th>
+                      <th
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                      >
+                        Age
+                      </th>
+                      <th
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                      >
+                        Gender
+                      </th>
+                      <th
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                      >
+                        Risk Level
+                      </th>
+                      <th
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                      >
+                        Risk Score
+                      </th>
+                      <th
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                      >
+                        Actions
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody
+                    class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700"
                   >
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                      {{ formatDate(prediction.createdAt) }}
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                      {{ prediction.inputData.age }}
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                      {{ prediction.inputData.gender }}
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <span
-                        :class="{
-                          'px-2 py-1 text-xs font-medium rounded-full': true,
-                          'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200':
-                            prediction.result.prediction === 'High Risk',
-                          'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200':
-                            prediction.result.prediction === 'Moderate Risk',
-                          'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200':
-                            prediction.result.prediction === 'Low Risk',
-                        }"
+                    <tr v-if="loading">
+                      <td
+                        colspan="6"
+                        class="px-6 py-4 text-center text-gray-500 dark:text-gray-400"
                       >
-                        {{ prediction.result.prediction }}
-                      </span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                      {{ prediction.result.riskScore }}
-                    </td>
-                    <td
-                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400"
+                        Loading predictions...
+                      </td>
+                    </tr>
+                    <tr v-else-if="loading">
+                      <td
+                        colspan="6"
+                        class="px-6 py-4 text-center text-gray-500 dark:text-gray-400"
+                      >
+                        <i class="fas fa-circle-notch fa-spin mr-2"></i>
+                        Loading predictions...
+                      </td>
+                    </tr>
+                    <tr v-else-if="filteredPredictions.length === 0">
+                      <td
+                        colspan="6"
+                        class="px-6 py-4 text-center text-gray-500 dark:text-gray-400"
+                      >
+                        No prediction history found.
+                      </td>
+                    </tr>
+                    <tr
+                      v-for="prediction in paginatedPredictions"
+                      :key="prediction._id"
+                      class="dark:hover:bg-gray-700"
                     >
-                      <button
-                        @click="viewPrediction(prediction._id)"
-                        class="text-blue-600 hover:text-blue-700 mr-3"
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                        {{ formatDate(prediction.createdAt) }}
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                        {{ prediction.inputData.age }}
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                        {{ prediction.inputData.gender }}
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <span
+                          :class="{
+                            'px-2 py-1 text-xs font-medium rounded-full': true,
+                            'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200':
+                              prediction.result.prediction === 'High Risk',
+                            'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200':
+                              prediction.result.prediction === 'Moderate Risk',
+                            'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200':
+                              prediction.result.prediction === 'Low Risk',
+                          }"
+                        >
+                          {{ prediction.result.prediction }}
+                        </span>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                        {{ prediction.result.riskScore }}
+                      </td>
+                      <td
+                        class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400"
                       >
-                        <i class="fas fa-eye"></i>
-                      </button>
-                      <button
-                        @click="confirmDelete(prediction._id)"
-                        class="text-red-600 hover:text-red-700"
-                      >
-                        <i class="fas fa-trash"></i>
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                        <button
+                          @click="viewPrediction(prediction._id)"
+                          class="text-blue-600 hover:text-blue-700 mr-3"
+                        >
+                          <i class="fas fa-eye"></i>
+                        </button>
+                        <button
+                          @click="confirmDelete(prediction._id)"
+                          class="text-red-600 hover:text-red-700"
+                        >
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
 
             <!-- Pagination -->
-            <div class="flex items-center justify-between mt-6">
-              <div class="text-sm text-gray-700 dark:text-gray-300">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-6">
+              <div
+                class="text-sm text-center sm:text-left text-gray-700 dark:text-gray-300 w-full sm:w-auto"
+              >
                 Showing {{ paginationStart }} to {{ paginationEnd }} of
                 {{ filteredPredictions.length }} results
               </div>
@@ -210,11 +225,11 @@
                   class="px-3 py-1 rounded-md bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <i class="fas fa-chevron-left mr-1"></i>
-                  Previous
+                  <span class="hidden sm:inline">Previous</span>
                 </button>
 
                 <!-- Page numbers -->
-                <div class="flex space-x-2">
+                <div class="hidden sm:flex space-x-2">
                   <button
                     v-for="page in totalPages"
                     :key="page"
@@ -230,13 +245,18 @@
                   </button>
                 </div>
 
+                <!-- Current page indicator for mobile -->
+                <span class="sm:hidden text-sm text-gray-700 dark:text-gray-300">
+                  Page {{ currentPage }} of {{ totalPages }}
+                </span>
+
                 <!-- Next button -->
                 <button
                   @click="currentPage = currentPage + 1"
                   :disabled="currentPage === totalPages"
                   class="px-3 py-1 rounded-md bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Next
+                  <span class="hidden sm:inline">Next</span>
                   <i class="fas fa-chevron-right ml-1"></i>
                 </button>
               </div>
@@ -246,7 +266,7 @@
       </div>
     </div>
     <!-- Footer -->
-    <div class="ml-64">
+    <div class="ml-0 md:ml-64">
       <Footer />
     </div>
 
